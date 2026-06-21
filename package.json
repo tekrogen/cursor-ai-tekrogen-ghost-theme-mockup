@@ -1,6 +1,6 @@
 {
   "name": "tekrogen-ghost-theme-mockup",
-  "version": "0.15.0",
+  "version": "0.15.1",
   "private": true,
   "description": "Tekrogen Ghost theme mockup — static design mockups and brand-compliance surface. Versions track design milestones (release-type: node via release-please).",
   "scripts": {

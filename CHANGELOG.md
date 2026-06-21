@@ -8,6 +8,13 @@ mockup project, so versions track design milestones rather than shipped software
 > not recorded — they are marked *(date not recorded)*. Everything from the
 > brand-compliance pass onward is dated accurately.
 
+## [0.15.1](https://github.com/tekrogen/cursor-ai-tekrogen-ghost-theme-mockup/compare/v0.15.0...v0.15.1) (2026-06-21)
+
+
+### Bug Fixes
+
+* set locked tagline verbatim and link brand lockup home ([#14](https://github.com/tekrogen/cursor-ai-tekrogen-ghost-theme-mockup/issues/14)) ([8d4a79f](https://github.com/tekrogen/cursor-ai-tekrogen-ghost-theme-mockup/commit/8d4a79fc7bbcb8f3c5226bc77f8cbf5da5aa1abb))
+
 ## [Unreleased]
 
 ### Pending (awaiting go-ahead)
