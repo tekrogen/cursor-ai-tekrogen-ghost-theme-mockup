@@ -1,0 +1,43 @@
+# CODEOWNERS — who gets auto-requested for review on a pull request.
+#
+# HOW IT WORKS
+#   • When a PR changes a file, the owners matched below are automatically
+#     added as reviewers.
+#   • Ownership is enforced ONLY if branch protection on `main` has
+#     "Require review from Code Owners" enabled. It is currently OFF
+#     (required approvals = 0), so these lines just auto-request reviewers
+#     and don't block merges yet. Turn it on in:
+#     Settings → Branches → main → Require review from Code Owners.
+#
+# SYNTAX
+#   • <pattern>  <owner> [<owner>…]   — gitignore-style glob, then owners.
+#   • Owners are @user, @org/team, or email addresses.
+#   • LAST matching pattern wins (opposite of .gitignore). Put broad rules
+#     first, specific overrides later.
+#   • Valid locations (first found wins): .github/CODEOWNERS, /CODEOWNERS,
+#     docs/CODEOWNERS.
+#
+# Replace @tekrogen below with the right user/team once collaborators join.
+
+# ── Default owner for everything ────────────────────────────────────────
+*                       @tekrogen
+
+# ── Vendored Design System registry ─────────────────────────────────────
+# These are vendored from Tekrogen-Brand-Design-System and must NOT be
+# edited here — fix upstream in the DS repo and re-vendor (see CLAUDE.md).
+# Flagging them routes any accidental change to a reviewer.
+/components/             @tekrogen
+
+# ── Token layer (kept at DS parity) ─────────────────────────────────────
+colors_and_type.css      @tekrogen
+/scripts/palette.js      @tekrogen
+
+# ── Mockup surfaces & build briefs ──────────────────────────────────────
+/index.html              @tekrogen
+/mockups/                @tekrogen
+
+# ── Governance, CI, and project config ──────────────────────────────────
+/.github/                @tekrogen
+/CLAUDE.md               @tekrogen
+/release-please-config.json        @tekrogen
+/.release-please-manifest.json     @tekrogen
