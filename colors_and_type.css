@@ -1,0 +1,479 @@
+/* ============================================================
+ * Tekrogen · Foundations — colors, type, spacing
+ * ============================================================
+ *
+ * All brand weights (400–800) of Poppins, Manrope, and JetBrains Mono
+ * are self-hosted from /fonts/ as latin-subset woff2 (see @font-face
+ * below). No external font CDN is required — the Google Fonts <link>
+ * that older surfaces still carry is now redundant and is being removed
+ * surface-by-surface. See fonts/README.md.
+ *
+ * Tekrogen is a sans-only brand — no serif face, no second sans.
+ * Editorial slots (article hero, italic deks) use Poppins 600 + italic.
+ */
+
+/* ─── Self-hosted brand fonts · Regular (400) ── */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/poppins-v24-latin-regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/JetBrainsMono-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/manrope-v20-latin-regular.woff2') format('woff2');
+}
+
+/* ─── Self-hosted brand fonts · weights 500–800 (latin woff2) ── */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/poppins-v24-latin-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('fonts/poppins-v24-latin-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/poppins-v24-latin-700.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('fonts/poppins-v24-latin-800.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/JetBrainsMono-Medium.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('fonts/JetBrainsMono-SemiBold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/JetBrainsMono-Bold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/manrope-v20-latin-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('fonts/manrope-v20-latin-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/manrope-v20-latin-700.woff2') format('woff2');
+}
+
+/* ─── Self-hosted brand fonts · Poppins italic (editorial deks) ── */
+@font-face {
+  font-family: 'Poppins';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/poppins-v24-latin-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/poppins-v24-latin-500italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url('fonts/poppins-v24-latin-600italic.woff2') format('woff2');
+}
+
+:root {
+  /* ─── Palette block ─── Single source: tokens/palette.js ──── *
+   * The block between TK-PALETTE-BEGIN and TK-PALETTE-END is
+   * generated. Do not edit by hand. To change a value, edit
+   * tokens/palette.js and run `node tokens/sync.mjs`.
+   * See adr/0002-palette-single-source.md.                     */
+/* TK-PALETTE-BEGIN — generated from tokens/palette.js. Edit JS, run `node tokens/sync.mjs`. */
+  --tk-org:          #446e88;
+  --tk-studio:       #6491ac;
+  --tk-com:          #0db4b9;
+  --tk-net:          #7edba5;
+  --tk-body:         #385166;
+  --tk-head:         #3f617b;
+  --tk-cyan:         #1fd5da;
+  --tk-body-inv:     #cad6e0;
+  --tk-head-inv:     #9eb1c0;
+  --tk-org-print:    #3a6079;
+  --tk-studio-print: #5d89a5;
+  --tk-com-print:    #0aa3a8;
+  --tk-net-print:    #6dc491;
+  --tk-body-print:   #2e4356;
+  --tk-ink:          #0e1116;
+  --tk-ink-soft:     #171c24;
+  --tk-ink-2:        #1f2731;
+  --tk-paper:        #fbfcfd;
+  --tk-paper-warm:   #f4ede2;
+  /* TK-PALETTE-END */
+
+  /* ─── Foreground tokens · DARK theme default ──────────────── */
+  --tk-fg-1:         #e7ecf2;  /* primary text on ink */
+  --tk-fg-2:         #cbd5e1;  /* secondary text */
+  --tk-fg-3:         #8a98a8;  /* muted, captions, meta — lowest token for readable TEXT (AA: ink 6.43:1 / paper 4.71:1) */
+  --tk-fg-4:         #6b7785;  /* DECORATIVE / DISABLED ONLY — dividers, disabled UI; NOT text (fails AA: ink 4.14 / paper 2.94) */
+  --tk-fg-5:         #5d6975;  /* DECORATIVE ONLY — faint dividers; NOT text (fails AA: ink 3.37 / paper 1.85) */
+  --tk-fg-on-accent: #ffffff;  /* text/initials ON a pillar or cyan fill (avatars, ribbons); holds in ink + paper (the fill is colored in both) */
+  --tk-bg-1:         var(--tk-ink);
+  --tk-bg-2:         var(--tk-ink-soft);
+  --tk-bg-3:         #0a0d12;       /* deeper than ink, e.g. code blocks */
+  --tk-border:       var(--tk-ink-2);
+  --tk-mark-head:    var(--tk-head-inv);   /* dragonfly mark — surface-adaptive: lifted set on dark (ink) */
+  --tk-mark-body:    var(--tk-body-inv);
+  --tk-mark-facet:   #1b2530;
+
+  /* ─── Semantic / state ────────────────────────────────────── */
+  --tk-accent:       var(--tk-cyan);
+  --tk-link:         var(--tk-cyan);
+  --tk-focus:        var(--tk-cyan);   /* keyboard focus ring · Ink (10.44:1 vs ink) */
+  --tk-success:      var(--tk-net);
+  --tk-success-text: var(--tk-net);  /* state color used AS TEXT — paper overrides to an AA green */
+  --tk-info:         var(--tk-com);
+  --tk-warning:      #e0a755;
+  --tk-danger:       #d96b5c;
+
+  /* ─── Type · families ─────────────────────────────────────── */
+  --tk-font-sans:    'Poppins', 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --tk-font-mono:    'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --tk-font-editorial: var(--tk-font-sans);  /* editorial = Poppins 600 + italic dek (sans-only brand) */
+
+  /* ─── Type · scale (clamped fluid) ────────────────────────── */
+  --tk-fs-display:   clamp(2.5rem, 1.8rem + 3.5vw, 4rem);   /* @kind font */
+  --tk-fs-h1:        clamp(2rem, 1.5rem + 2.2vw, 3rem);  /* @kind font */
+  --tk-fs-h2:        clamp(1.5rem, 1.25rem + 1.1vw, 1.75rem);     /* fluid · 24→28px */
+  --tk-fs-h3:        clamp(1.125rem, 1.05rem + 0.35vw, 1.25rem);  /* fluid · 18→20px */
+  --tk-fs-h4:        1rem;      /* 16px — rem, scales with user zoom */
+  --tk-fs-body:      1rem;      /* 16px — rem, scales with user zoom */
+  --tk-fs-body-sm:   0.875rem;  /* 14px — rem */
+  --tk-fs-eyebrow:   0.75rem;   /* 12px floor — min readable uppercase mono label */
+  --tk-fs-meta:      0.75rem;   /* 12px floor — min readable uppercase mono label */
+  --tk-fs-code:      0.8125rem; /* 13px — rem */
+  --tk-fs-og-title:  clamp(1.75rem, 1.4rem + 1.6vw, 2.125rem);  /* fluid · 28→34px · OG/social card title (shared artifact spec) */
+
+  /* ─── Type · letter-spacing (signature) ───────────────────── */
+  --tk-ls-wordmark:  0.18em;  /* TEKROGEN, locked */
+  --tk-ls-eyebrow:   0.16em;
+  --tk-ls-caps:      0.14em;
+  --tk-ls-meta:      0.12em;
+  --tk-ls-tight:     -0.02em; /* h1 / display */
+
+  /* ─── Line height ─────────────────────────────────────────── */
+  --tk-lh-tight:     1.05;   /* @kind font */
+  --tk-lh-snug:      1.2;    /* @kind font */
+  --tk-lh-body:      1.6;    /* @kind font */
+  --tk-lh-loose:     1.7;    /* @kind font */
+
+  /* ─── Spacing scale (4-pt) ────────────────────────────────── */
+  --tk-space-1:      4px;
+  --tk-space-2:      8px;
+  --tk-space-3:      12px;
+  --tk-space-4:      16px;
+  --tk-space-5:      20px;
+  --tk-space-6:      24px;
+  --tk-space-8:      32px;
+  --tk-space-10:     40px;
+  --tk-space-12:     48px;
+  --tk-space-16:     64px;
+  --tk-space-20:     80px;
+  --tk-space-24:     96px;
+
+  /* ─── Radii ───────────────────────────────────────────────── */
+  --tk-radius-xs:    4px;       /* chips, mono badges */
+  --tk-radius-sm:    6px;       /* buttons */
+  --tk-radius-md:    8px;       /* inputs */
+  --tk-radius-lg:    10px;      /* small cards */
+  --tk-radius-xl:    12px;      /* default card */
+  --tk-radius-2xl:   16px;
+  --tk-radius-pill:  9999px;
+
+  /* ─── Borders ─────────────────────────────────────────────── */
+  --tk-border-1:     1px solid var(--tk-border);
+  --tk-border-hair:  0.5px solid color-mix(in srgb, var(--tk-border) 70%, transparent);
+  --tk-border-accent:1px solid var(--tk-cyan);
+
+  /* ─── Shadows ─────────────────────────────────────────────── */
+  /* Tekrogen surfaces lean on hairline borders, NOT drop shadows.
+   * Use these sparingly. There is no diffuse-soft elevation system. */
+  --tk-shadow-1:     0 1px 0 rgba(255,255,255,0.04) inset, 0 0 0 1px var(--tk-border);
+  --tk-shadow-2:     0 14px 40px rgba(0,0,0,0.5);            /* floating dock / toast on dark */
+  --tk-shadow-glow:  0 0 0 1px var(--tk-cyan), 0 0 24px rgba(31,213,218,0.18);
+
+  /* ─── Tilt (signature transform) ──────────────────────────── */
+  --tk-tilt-mark:    18deg;     /* @kind other */
+
+  /* ─── Motion ──────────────────────────────────────────────── */
+  --tk-ease:         cubic-bezier(.2,.7,.2,1);     /* @kind other */
+  --tk-ease-bounce:  cubic-bezier(.2,.9,.3,1.2);   /* @kind other */
+  --tk-dur-1:        120ms;     /* @kind other */
+  --tk-dur-2:        220ms;     /* @kind other */
+  --tk-dur-3:        280ms;     /* @kind other */
+  --tk-dur-4:        420ms;     /* @kind other */
+
+  /* ─── Layout ──────────────────────────────────────────────── */
+  --tk-container:    1380px;
+  --tk-container-text: 760px;
+  --tk-shell-max:    min(1760px, 94vw);   /* app-shell max — fluid: 1760 cap on large screens, 94vw gutter below */
+  --tk-gutter:       48px;
+  --tk-gutter-sm:    20px;
+
+  /* ─── OG / social-card ARTIFACT tokens (ADR-0010) ───────────
+   * Single source of truth for the asset-pack OG card generator
+   * (ui_kits/asset-pack → ogSVG). Values are UNITLESS numbers in the
+   * fixed 1200×630 artifact space — NOT fluid CSS lengths — because
+   * exports must be deterministic. Feeds render the card at ~½ size,
+   * so the legibility floor is 30 (≈ 12px rendered).
+   * Distinct from --tk-fs-og-title above, which sizes on-PAGE text
+   * set in the OG-card style (fluid clamp, CSS pixels).
+   * Colors alias the theme-invariant base palette and live in :root
+   * ONLY — the artifact is always Ink; it must not flip with
+   * data-tk-theme. Changing any value here changes every future
+   * render AND export — regenerate shipped PNGs (ADR-0010).        */
+  --tk-og-fs-title:    58;   /* card title / author name · Poppins 700  */
+  --tk-og-fs-name:     34;   /* byline name · Poppins 600               */
+  --tk-og-fs-body:     34;   /* author bio · Poppins 400                */
+  --tk-og-fs-wordmark: 32;   /* TEKROGEN top row · Poppins              */
+  --tk-og-fs-meta:     30;   /* eyebrow / URL / role / chip label · mono — the floor */
+  --tk-og-fs-chip-num: 36;   /* series chip number · Poppins 700        */
+  --tk-og-pad:         80;   /* artifact margin (center-80% safe zone)  */
+  --tk-og-chip-pad:    24;   /* chip horizontal padding                 */
+  --tk-og-bg:        var(--tk-ink);
+  --tk-og-fg:        #ffffff;
+  --tk-og-accent:    var(--tk-cyan);
+  --tk-og-muted:     #8a98a8;   /* matches --tk-fg-3 on ink, frozen so Paper can't shift it */
+  --tk-og-chip:      #1f2731;   /* matches --tk-ink-2, frozen for the same reason          */
+}
+
+/* ─── Paper theme override ─────────────────────────────────── */
+.tk-paper, [data-tk-theme="paper"] {
+  --tk-fg-1: #1f2731;
+  --tk-fg-2: #475561;
+  --tk-fg-3: #6b7280;
+  --tk-fg-4: #8a96a1;
+  --tk-fg-5: #b5bdc6;
+  --tk-bg-1: #f3f5f7;       /* decoupled from --tk-paper (print/lockups keep #fbfcfd): page bg one step down so white cards lift */
+  --tk-bg-2: #ffffff;
+  --tk-bg-3: #e9edf1;       /* one step deeper — keeps the bg scale hierarchy under the new bg-1 */
+  --tk-border: #d4dce3;   /* raised from #e6ebef (1.17→1.35:1) — more visible hairline (decorative) */
+  --tk-focus:  #086a6f;   /* darker teal · cyan fails on paper; 5.8:1 on bg-1, 5.4:1 on bg-3 (AA) */
+  --tk-link:   #086a6f;   /* paper link — cyan fails; 5.8:1 on bg-1 / 6.4:1 on white (AA · WCAG 1.4.3) */
+  --tk-accent: #086a6f;   /* paper accent text — matches link/focus teal; AA on bg-1/2/3 */
+  --tk-success-text: #1f7a4d;   /* paper success text — --tk-net is ~1.5:1 on paper; this ≥ 4.5:1 (AA) */
+  --tk-mark-head:  var(--tk-head);   /* dragonfly mark on light (paper): darker non-inverse set */
+  --tk-mark-body:  var(--tk-body);
+  --tk-mark-facet: var(--tk-body);
+}
+
+/* ============================================================
+ * SEMANTIC ELEMENTS
+ * ============================================================ */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--tk-bg-1);
+  color: var(--tk-fg-1);
+  font-family: var(--tk-font-sans);
+  font-size: var(--tk-fs-body);
+  line-height: var(--tk-lh-body);
+  font-feature-settings: 'ss01';
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Focus · keyboard-visible only ───────────────────────────
+ * Accessibility affordance, NOT decorative cyan — exempt from the
+ * "one cyan per surface" rule. Renders only for keyboard / AT users
+ * via :focus-visible, so pointer clicks stay quiet. WCAG 2.4.7 / 2.4.11.
+ * :where() keeps specificity 0 so components can override freely.
+ * Note: an element flush against an overflow:hidden container (e.g. .card)
+ * can have its ring clipped — give those `outline-offset: -2px`. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--tk-focus);
+  outline-offset: 2px;
+}
+
+/* ─── Headings ─── tight sans, signature negative tracking ── */
+h1, .tk-h1 {
+  font-family: var(--tk-font-sans);
+  font-weight: 700;
+  font-size: var(--tk-fs-h1);
+  letter-spacing: var(--tk-ls-tight);
+  line-height: var(--tk-lh-tight);
+  margin: 0 0 var(--tk-space-4);
+}
+h2, .tk-h2 {
+  font-family: var(--tk-font-sans);
+  font-weight: 700;
+  font-size: var(--tk-fs-h2);
+  letter-spacing: -0.015em;
+  line-height: var(--tk-lh-snug);
+  margin: 0 0 var(--tk-space-3);
+}
+h3, .tk-h3 {
+  font-family: var(--tk-font-sans);
+  font-weight: 600;
+  font-size: var(--tk-fs-h3);
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--tk-space-2);
+}
+h4, .tk-h4 {
+  font-family: var(--tk-font-sans);
+  font-weight: 600;
+  font-size: var(--tk-fs-h4);
+  margin: 0 0 var(--tk-space-2);
+}
+
+/* ─── Display / splash (e.g. hero h1) ──────────────────────── */
+.tk-display {
+  font-family: var(--tk-font-sans);
+  font-weight: 700;
+  font-size: var(--tk-fs-display);
+  letter-spacing: var(--tk-ls-tight);
+  line-height: var(--tk-lh-tight);
+}
+
+/* ─── Wordmark — locked treatment ──────────────────────────── */
+.tk-wordmark {
+  font-family: var(--tk-font-sans);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tk-ls-wordmark);
+  line-height: 1;
+}
+
+/* ─── Eyebrow — mono kicker above titles ──────────────────── */
+.tk-eyebrow {
+  font-family: var(--tk-font-mono);
+  font-weight: 500;
+  font-size: var(--tk-fs-eyebrow);
+  letter-spacing: var(--tk-ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--tk-accent);
+}
+
+/* ─── Meta — mono small caps for labels, breadcrumbs ──────── */
+.tk-meta {
+  font-family: var(--tk-font-mono);
+  font-weight: 500;
+  font-size: var(--tk-fs-meta);
+  letter-spacing: var(--tk-ls-meta);
+  text-transform: uppercase;
+  color: var(--tk-fg-3);
+}
+
+/* ─── Body, lead, small ───────────────────────────────────── */
+p, .tk-p {
+  font-family: var(--tk-font-sans);
+  font-size: var(--tk-fs-body);
+  line-height: var(--tk-lh-body);
+  color: var(--tk-fg-2);
+  margin: 0 0 var(--tk-space-3);
+  max-width: var(--tk-container-text);
+  text-wrap: pretty;
+}
+.tk-lead {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--tk-fg-2);
+}
+.tk-small {
+  font-size: var(--tk-fs-body-sm);
+  color: var(--tk-fg-3);
+}
+
+/* ─── Mono / code ─── lowercase by default on Tekrogen ─────── */
+code, .tk-code {
+  font-family: var(--tk-font-mono);
+  font-weight: 500;
+  font-size: var(--tk-fs-code);
+  color: var(--tk-accent);
+  text-transform: lowercase;
+}
+pre.tk-pre {
+  background: var(--tk-bg-3);
+  border: var(--tk-border-1);
+  border-radius: var(--tk-radius-lg);
+  padding: 18px;
+  font-family: var(--tk-font-mono);
+  font-size: 13px;  /* raised from 11.5px */
+  color: var(--tk-fg-2);
+  overflow: auto;
+  line-height: 1.55;
+}
+
+/* ─── Editorial (long-form headlines, italic deks) ─── Poppins ─ */
+.tk-editorial {
+  font-family: var(--tk-font-sans);
+  font-weight: 600;
+  font-style: normal;
+  letter-spacing: -0.015em;
+}
+.tk-editorial-italic {
+  font-family: var(--tk-font-sans);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--tk-fg-3);
+}
+
+/* ─── Links ───────────────────────────────────────────────── */
+a, .tk-a {
+  color: var(--tk-link);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--tk-link) 35%, transparent);
+  transition: color var(--tk-dur-1) var(--tk-ease),
+              border-color var(--tk-dur-1) var(--tk-ease);
+}
+a:hover, .tk-a:hover {
+  border-bottom-color: var(--tk-link);
+}

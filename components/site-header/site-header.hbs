@@ -1,0 +1,17 @@
+{{!-- Tekrogen · Site header partial → Ghost theme header (default.hbs). Uses {{@site}} +
+      {{navigation}}. Drop data-style="framed" for an in-frame/static context. --}}
+<header class="tk-site-header">
+  <div data-tk-slot="inner">
+    <a data-tk-slot="brand" href="{{@site.url}}">
+      <img src="{{@site.icon}}" alt="{{@site.title}}" width="24" height="24"/>
+      <span data-tk-slot="wordmark">{{@site.title}}</span>
+    </a>
+    <nav data-tk-slot="nav">
+      {{navigation}}
+    </nav>
+    <div data-tk-slot="util">
+      <span class="tk-label">Search</span>
+      {{#unless @member}}<a class="tk-button" data-style="cta" data-variant="secondary" href="#/portal/signin">Sign in</a>{{else}}<a class="tk-button" data-style="cta" data-variant="secondary" href="#/portal/account">Account</a>{{/unless}}
+    </div>
+  </div>
+</header>

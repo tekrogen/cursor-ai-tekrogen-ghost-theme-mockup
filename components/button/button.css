@@ -1,0 +1,97 @@
+/* Tekrogen · Button — .tk-button
+ * Extracted from index.html dashboard `.btn` per ADR-0011 (stage d, PR 1).
+ * Bare class = the default (primary) variant; deviations via data-variant / data-size.
+ * Token-only: padding snapped to the --tk-space-* scale (PR-1 normalization,
+ * logged as a MINOR pixel-diff per ADR-0003); hairlines via --tk-border-* tokens.
+ */
+.tk-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--tk-space-2);
+  font-family: var(--tk-font-mono);
+  font-size: var(--tk-fs-meta);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: var(--tk-space-2) var(--tk-space-4);
+  border: var(--tk-border-accent);
+  border-radius: var(--tk-radius-sm);
+  background: var(--tk-cyan);
+  color: var(--tk-ink);
+  cursor: pointer;
+  transition: background var(--tk-dur-1) var(--tk-ease),
+              color var(--tk-dur-1) var(--tk-ease),
+              border-color var(--tk-dur-1) var(--tk-ease),
+              transform var(--tk-dur-1) var(--tk-ease);
+}
+
+.tk-button[data-variant="secondary"] {
+  border: var(--tk-border-1);
+  background: transparent;
+  color: var(--tk-fg-1);
+}
+
+.tk-button[data-variant="tertiary"] {
+  border: var(--tk-border-1);
+  border-color: transparent;
+  background: transparent;
+  color: var(--tk-fg-2);
+  padding: var(--tk-space-2);
+}
+
+.tk-button[data-size="icon"] { padding: var(--tk-space-2) var(--tk-space-3); }
+
+.tk-button:hover { border-color: var(--tk-focus); }
+.tk-button:where(:not([data-variant]), [data-variant="primary"]):hover {
+  background: color-mix(in srgb, var(--tk-cyan) 92%, white);
+}
+.tk-button:active { transform: scale(0.98); }
+
+/* ── Pillar-aware (data-pillar = org|studio|com|net) — the accent keys off the
+ *    pillar instead of cyan, per the brand's pillar-keyed color access. ADR-0011 §4.
+ *    Composes with data-variant: bare/primary = filled with the pillar; secondary /
+ *    tertiary = pillar accent on hover. data-block = full-width CTA. ── */
+.tk-button[data-pillar="org"]    { --pillar: var(--tk-org); }
+.tk-button[data-pillar="studio"] { --pillar: var(--tk-studio); }
+.tk-button[data-pillar="com"]    { --pillar: var(--tk-com); }
+.tk-button[data-pillar="net"]    { --pillar: var(--tk-net); }
+
+.tk-button[data-pillar]:where(:not([data-variant]), [data-variant="primary"]) {
+  background: var(--pillar);
+  border-color: var(--pillar);
+  color: var(--tk-ink);
+}
+.tk-button[data-pillar]:where(:not([data-variant]), [data-variant="primary"]):hover {
+  background: color-mix(in srgb, var(--pillar) 92%, white);
+}
+.tk-button[data-pillar][data-variant="secondary"]:hover,
+.tk-button[data-pillar][data-variant="tertiary"]:hover {
+  border-color: var(--pillar);
+  color: var(--pillar);
+}
+
+.tk-button[data-block] { display: flex; width: 100%; justify-content: center; }
+
+/* ── Sub-label hint (data-tk-slot="hint") — a mono, dimmed secondary label inside the
+ *    button, e.g. a destination: "Run the demo  ↗ studio". Composes via the base gap. ── */
+.tk-button [data-tk-slot="hint"] {
+  font-family: var(--tk-font-mono);
+  font-size: var(--tk-fs-eyebrow);
+  text-transform: none;
+  letter-spacing: 0;
+  opacity: 0.7;
+}
+
+/* ── Editorial CTA (data-style="cta") — the publication button: sans, mixed-case,
+ *    weight 600, roomier. Overrides ONLY the typographic face of the default
+ *    (technical mono/UPPERCASE) button; color still comes from data-variant /
+ *    data-pillar, so it composes (e.g. data-style="cta" data-pillar="com"). The
+ *    hint sub-label stays mono by design. ADR-0011 §4. ── */
+.tk-button[data-style="cta"] {
+  font-family: var(--tk-font-sans);
+  font-weight: 600;
+  font-size: var(--tk-fs-body-sm);
+  letter-spacing: normal;
+  text-transform: none;
+  padding: var(--tk-space-3) var(--tk-space-5);
+}

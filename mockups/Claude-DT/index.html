@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en" data-tk-theme="ink">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="version" content="v0.12.1"/>
+<title>Tekrogen · Publishing System Theme — Claude-DT mockup</title>
+<link rel="icon" href="../../assets/favicon.svg"/>
+<link rel="stylesheet" href="../../colors_and_type.css"><!-- self-hosted fonts via @font-face (ADR-0008) -->
+<link rel="stylesheet" href="../../components/tk-components.css"><!-- vendored design-system registry -->
+<style>
+/* ── mockup-only CSS · tokens, type + Paper theme come from ../../colors_and_type.css (brand foundation) ── */
+:root{--wing-accent:var(--tk-cyan)}
+*{box-sizing:border-box}
+body{background:#07090c}              /* review-harness backdrop; the themed stage owns its own surface */
+a{border-bottom:0}                    /* foundation underlines every <a>; mockup components opt back in */
+.var-org{--pillar:var(--tk-org)}.var-studio{--pillar:var(--tk-studio)}
+.display{font-weight:700;font-size:var(--tk-fs-display);letter-spacing:var(--tk-ls-tight);line-height:var(--tk-lh-tight)}
+.eyebrow{font-family:var(--tk-font-mono);font-weight:500;font-size:var(--tk-fs-eyebrow);letter-spacing:var(--tk-ls-eyebrow);text-transform:uppercase;color:var(--wing-accent);margin:0 0 var(--tk-space-3)}
+.meta{font-family:var(--tk-font-mono);font-weight:500;font-size:var(--tk-fs-meta);letter-spacing:var(--tk-ls-meta);text-transform:uppercase;color:var(--tk-fg-3)}
+.lead{font-size:18px;line-height:1.55;color:var(--tk-fg-2);max-width:64ch}
+.italic-dek{font-style:italic;color:var(--tk-fg-3)}
+
+/* harness */
+.app{min-height:100vh}
+.shell-bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:var(--tk-space-5);padding:10px var(--tk-space-6);background:rgba(7,9,12,.86);backdrop-filter:blur(10px);border-bottom:var(--tk-border-1)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700}.brand img{width:22px;height:22px;transform:rotate(var(--tk-tilt-mark))}
+.ver{font-family:var(--tk-font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--tk-fg-3);border:var(--tk-border-1);border-radius:var(--tk-radius-pill);padding:3px 9px;white-space:nowrap}
+.shell-tabs{display:flex;gap:4px;flex-wrap:wrap}
+.shell-tab{font-family:var(--tk-font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--tk-fg-3);background:none;border:1px solid transparent;border-radius:var(--tk-radius-sm);padding:6px 11px;cursor:pointer;transition:all var(--tk-dur-1) var(--tk-ease)}
+.shell-tab:hover{color:var(--tk-fg-1);border-color:var(--tk-cyan)}
+.shell-tab[aria-selected="true"]{background:var(--tk-cyan);color:#0e1116;border-color:var(--tk-cyan)}
+.shell-spacer{flex:1}
+/* surface toggle — segmented control per Tekrogen-Brand-Design-System (active = cyan fill + ink text) */
+.surface-toggle{display:inline-flex;align-items:center;border:var(--tk-border-1);border-radius:var(--tk-radius-md);overflow:hidden;background:var(--tk-bg-3)}
+.surface-toggle button{font-family:var(--tk-font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;color:var(--tk-fg-3);background:transparent;border:0;padding:8px 12px;cursor:pointer;transition:color var(--tk-dur-1) var(--tk-ease),background var(--tk-dur-1) var(--tk-ease)}
+.surface-toggle button[aria-pressed="true"]{background:var(--tk-cyan);color:var(--tk-ink)}
+.wings{display:flex;align-items:center;gap:6px}
+.wing{width:16px;height:16px;border-radius:50%;border:1px solid rgba(255,255,255,.15);cursor:pointer;padding:0}
+.wing.is-on{box-shadow:0 0 0 2px #07090c,0 0 0 3px var(--wing-accent)}
+.stage{color:var(--tk-fg-1);background:var(--tk-bg-1);min-height:60vh}
+.screen{display:none}.screen[aria-current="true"]{display:block}
+
+/* frame + site head */
+.frame{max-width:var(--tk-container);margin:var(--tk-space-8) auto;border:var(--tk-border-1);border-radius:var(--tk-radius-2xl);overflow:hidden;background:var(--tk-bg-1)}
+.frame-bar{display:flex;align-items:center;gap:12px;padding:9px 14px;background:var(--tk-bg-2);border-bottom:var(--tk-border-1)}
+.frame-dots{display:flex;gap:6px}.frame-dots span{width:10px;height:10px;border-radius:50%;background:#2b3340}
+.frame-url{font-family:var(--tk-font-mono);font-size:11px;color:var(--tk-fg-3);letter-spacing:.04em}.frame-url b{color:var(--wing-accent);font-weight:500}
+
+/* shared */
+.wrap{padding:var(--tk-space-16) var(--tk-gutter)}
+/* ── Registry consumer overrides (post-migration): behaviors the minimal registry
+ *    does not encode. The default editorial CTA follows the harness wing knob;
+ *    form inputs fill their field; textarea keeps resize. ── */
+.tk-button[data-style="cta"]:where(:not([data-variant]):not([data-pillar])){background:var(--wing-accent);border-color:var(--wing-accent);color:var(--tk-ink)}
+.tk-button[data-style="cta"]:where(:not([data-variant]):not([data-pillar])):hover{filter:brightness(1.08);border-color:var(--wing-accent)}
+.tk-button[data-style="cta"][data-variant="secondary"]:hover{border-color:var(--wing-accent);color:var(--wing-accent)}
+.field .tk-input,.reqform .tk-input,.doc-search .tk-input,.btn-block.tk-input{width:100%}
+textarea.tk-input{resize:vertical;min-height:96px;width:100%}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--tk-space-5)}</style>
+</head>
+<body>
+<div class="app">
+<style>
+/* ---- Home ---- */
+.pillar-buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--tk-space-4);padding:var(--tk-space-8) var(--tk-gutter) 0}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:var(--tk-space-12);align-items:center;padding:var(--tk-space-16) var(--tk-gutter)}
+.hero-copy .lead{margin:var(--tk-space-5) 0 0}
+.hero-cta{display:flex;gap:var(--tk-space-3);margin-top:var(--tk-space-8);flex-wrap:wrap}
+/* ---- Channel listing ---- */
+.classbar{display:flex;justify-content:space-between;gap:var(--tk-space-4);flex-wrap:wrap;padding:14px var(--tk-gutter);background:var(--tk-bg-2);border-bottom:var(--tk-border-1);font-family:var(--tk-font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tk-fg-3)}
+.classbar b{color:var(--pillar,var(--tk-fg-1));font-weight:600}
+.listing{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--tk-space-5)}
+/* ---- Use Case Study (FULL WIDTH like other pages) ---- */
+.ucs{display:grid;grid-template-columns:236px minmax(0,1fr);gap:56px;max-width:none;padding:var(--tk-space-12) var(--tk-gutter) var(--tk-space-20)}
+.toc-rail{position:sticky;top:84px;align-self:start}
+.toc{display:flex;flex-direction:column;gap:9px;border-left:var(--tk-border-1);padding-left:16px}
+.toc a{font-size:13px;color:var(--tk-fg-3);display:flex;gap:10px}.toc a:hover{color:var(--tk-fg-1)}
+.toc a .nn{font-family:var(--tk-font-mono);font-size:10px;color:var(--tk-fg-5)}
+.toc a.on{color:var(--wing-accent)}
+.ucs-body{max-width:none}
+.ucs-body section{padding:0 0 var(--tk-space-12)}
+.ucs-body h2{font-size:24px}
+.ucs-body p{font-size:17px;line-height:1.7;color:var(--tk-fg-2);max-width:72ch}
+.ac-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;list-style:none;padding:0;margin:0}
+.ac-list li{border:var(--tk-border-1);border-radius:var(--tk-radius-md);padding:12px 14px;font-size:14px;color:var(--tk-fg-2);display:flex;gap:10px}
+.ac-list li::before{content:"✓";color:var(--tk-com);font-weight:700}
+.tk-table .chosen{font-family:var(--tk-font-mono);font-size:10px;color:var(--tk-com);letter-spacing:.06em}
+.rt-card{border:var(--tk-border-1);border-radius:var(--tk-radius-lg);padding:16px;background:var(--tk-bg-2);margin-top:18px}
+.rt-card .meta{margin-bottom:10px}
+.stamp{display:inline-block;font-family:var(--tk-font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--tk-fg-4);border:var(--tk-border-1);border-radius:var(--tk-radius-sm);padding:8px 14px;transform:rotate(-3deg);margin-top:var(--tk-space-5)}
+.endfile{font-family:var(--tk-font-mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--tk-fg-5);text-align:center;padding:var(--tk-space-8) 0 0}
+/* ---- Recon ---- */
+.sources{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.sources li{font-size:14px;color:var(--tk-fg-2);display:flex;gap:12px}
+.sources li .n{font-family:var(--tk-font-mono);font-size:11px;color:var(--tk-net)}
+.feeds{display:inline-flex;align-items:center;gap:6px;font-family:var(--tk-font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--tk-com);border:1px solid color-mix(in srgb,var(--tk-com) 40%,transparent);border-radius:var(--tk-radius-pill);padding:5px 11px}</style>
+<style>
+/* ---- Demo ---- */
+.demo-cta{display:flex;gap:var(--tk-space-3);margin-top:var(--tk-space-5);flex-wrap:wrap}
+.stack{display:flex;gap:8px;flex-wrap:wrap}
+.lic-section{padding:var(--tk-space-12) var(--tk-gutter);border-top:var(--tk-border-1)}
+.prod-features{display:grid;grid-template-columns:1.6fr 1fr;gap:var(--tk-space-10);padding:var(--tk-space-12) var(--tk-gutter);border-top:var(--tk-border-1)}
+.tech-block{border:var(--tk-border-1);border-radius:var(--tk-radius-xl);padding:var(--tk-space-6);background:var(--tk-bg-2)}
+.tech-block h4{font-family:var(--tk-font-mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tk-fg-4);margin:0 0 12px}
+.tech-block h4:not(:first-child){margin-top:var(--tk-space-6)}
+.tech-block .crow{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--tk-fg-2);margin-bottom:8px}
+.tech-block .crow .n{font-family:var(--tk-font-mono);font-size:10px;letter-spacing:.14em;color:var(--tk-com);padding-top:2px}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--tk-space-4);padding:0 var(--tk-gutter) var(--tk-space-12)}
+/* ---- About ---- */
+.manifesto{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--tk-space-4)}
+.principles{display:grid;grid-template-columns:1fr 1fr;gap:var(--tk-space-8) var(--tk-space-12)}
+.principle{display:flex;gap:14px}.principle .pn{font-family:var(--tk-font-mono);font-size:13px;color:var(--wing-accent)}
+.principle h4{margin:0 0 4px}.principle p{font-size:14px;color:var(--tk-fg-3);margin:0}
+.team{display:grid;grid-template-columns:1fr 1fr;gap:var(--tk-space-5)}
+/* ---- Responsive ---- */
+@media(max-width:1080px){
+  .hero,.prod-hero2,.docs-hero,.prod-features,.ucs{grid-template-columns:1fr}
+  .cards,.feat-grid,.manifesto,.license-grid,.cat-grid{grid-template-columns:repeat(2,1fr)}
+  .listing,.principles,.team,.ac-list{grid-template-columns:1fr}
+  .toc-rail{position:static}.fw-stepper{grid-template-columns:repeat(4,1fr)}
+  .pillar-buttons{grid-template-columns:repeat(2,1fr)}.demo-meta{grid-template-columns:repeat(2,auto)}
+  .site-foot{grid-template-columns:1fr 1fr}.site-nav{display:none}
+}
+@media(max-width:640px) {
+  .cards,.feat-grid,.manifesto,.license-grid,.cat-grid,.shots{grid-template-columns:1fr}
+  .pillar-buttons{grid-template-columns:1fr}}
+/* ---- S9 · Account / Membership (gating per INDEX L4: anonymous → free → paid) ---- */
+.acct-intro{padding:var(--tk-space-12) var(--tk-gutter) 0}
+.sub-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:var(--tk-space-5)}
+.sub-head .lab{font-family:var(--tk-font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--tk-cyan)}
+.state-pill{font-family:var(--tk-font-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tk-fg-3);border:var(--tk-border-1);border-radius:var(--tk-radius-sm);padding:4px 9px;white-space:nowrap}
+.ghost-note{font-family:var(--tk-font-mono);font-size:10px;letter-spacing:.02em;color:var(--tk-fg-5);text-transform:lowercase;margin:10px 0 0}
+.acct-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--tk-space-5);padding:var(--tk-space-8) var(--tk-gutter)}
+.muted-line{font-family:var(--tk-font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--tk-fg-4)}
+.fineprint{font-size:12px;color:var(--tk-fg-4);margin:0}
+.conf-grid{display:grid;grid-template-columns:repeat(3,auto);gap:var(--tk-space-10);margin:var(--tk-space-5) 0}
+.conf-grid .k{font-family:var(--tk-font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--tk-fg-4);margin-bottom:3px}
+.conf-grid .v{font-size:14px;color:var(--tk-fg-1)}
+.keyline{display:flex;align-items:center;justify-content:space-between;gap:12px;border:var(--tk-border-1);border-radius:var(--tk-radius-md);background:var(--tk-bg-3);padding:12px 14px;font-family:var(--tk-font-mono);font-size:13px;color:var(--tk-fg-2);margin:var(--tk-space-4) 0;letter-spacing:.04em}
+.keyline .copy{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--tk-cyan);cursor:pointer}
+.reqform{border:var(--tk-border-1);border-radius:var(--tk-radius-2xl);padding:var(--tk-space-8);background:var(--tk-bg-2);max-width:720px;margin-top:var(--tk-space-5)}
+@media(max-width:1080px) {.member-ladder,.acct-grid,.conf-grid{grid-template-columns:1fr}}</style>
+
+<!-- APP CHROME — harness (NOT theme) -->
+<div class="shell-bar">
+  <div class="brand"><img src="../../assets/tekrogen-mark.svg" alt=""/> Tekrogen</div>
+  <span class="ver">Claude-DT · v0.12.1 · HI-FI</span>
+  <div class="shell-tabs" role="tablist">
+    <button class="shell-tab" role="tab" aria-selected="true"  data-screen="s1">Home</button>
+    <button class="shell-tab" role="tab" aria-selected="false" data-screen="s2">Case Studies</button>
+    <button class="shell-tab" role="tab" aria-selected="false" data-screen="s3">Use Case Study</button>
+    <button class="shell-tab" role="tab" aria-selected="false" data-screen="s4">Recon</button>
+    <button class="shell-tab" role="tab" aria-selected="false" data-screen="s5">Demos</button>
+    <button class="shell-tab" role="tab" aria-selected="false" data-screen="s6">Products</button>
+    <button class="shell-tab" role="tab" aria-selected="false" data-screen="s7">Documentation</button>
+    <button class="shell-tab" role="tab" aria-selected="false" data-screen="s8">About</button>
+    <button class="shell-tab" role="tab" aria-selected="false" data-screen="s9">Account</button>
+  </div>
+  <div class="shell-spacer"></div>
+  <div class="surface-toggle" role="group" aria-label="Surface">
+    <button data-surface="ink" aria-pressed="true">Ink</button>
+    <button data-surface="paper" aria-pressed="false">Paper</button>
+  </div>
+  <div class="wings" aria-label="Wing accent">
+    <button class="wing is-on" data-wing="var(--tk-cyan)" style="background:#1fd5da" title="cyan"></button>
+    <button class="wing" data-wing="var(--tk-org)" style="background:#446e88" title=".org"></button>
+    <button class="wing" data-wing="var(--tk-studio)" style="background:#6491ac" title=".studio"></button>
+    <button class="wing" data-wing="var(--tk-com)" style="background:#0db4b9" title=".com"></button>
+    <button class="wing" data-wing="var(--tk-net)" style="background:#7edba5" title=".net"></button>
+  </div>
+</div>
+
+<div class="stage" id="stage" data-tk-theme="ink">
+
+<!-- ===== S1 — home.hbs ===== -->
+<section class="screen" id="s1" aria-current="true">
+ <div class="frame">
+  <div class="frame-bar"><div class="frame-dots"><span></span><span></span><span></span></div><span class="frame-url">tekrogen.<b>org</b> /</span></div>
+  <header class="tk-site-header" data-style="framed"><div data-tk-slot="inner"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></div><nav data-tk-slot="nav"><a href="#" aria-current="page">Home</a><a href="#">Case Studies</a><a href="#">Recon</a><a href="#">Demos</a><a href="#">Products</a><a href="#">Documentation</a><a href="#">About</a></nav><div data-tk-slot="util"><span class="tk-label">Search</span><a class="tk-button" data-style="cta" data-variant="secondary" href="#">Sign in</a></div></div></header>
+
+  <!-- partial: pillar-buttons (browse by pillar, with counts) -->
+  <nav class="pillar-buttons" aria-label="Pillars">
+    <a class="tk-pillar-button" data-pillar="org" href="#"><span data-tk-slot="label">.org</span><span data-tk-slot="name">Case studies &amp; recon</span><span data-tk-slot="count">24 studies · 52 recon</span></a>
+    <a class="tk-pillar-button" data-pillar="studio" href="#"><span data-tk-slot="label">.studio</span><span data-tk-slot="name">Demos &amp; POCs</span><span data-tk-slot="count">11 live demos</span></a>
+    <a class="tk-pillar-button" data-pillar="com" href="#"><span data-tk-slot="label">.com</span><span data-tk-slot="name">Products &amp; licensing</span><span data-tk-slot="count">06 products</span></a>
+    <a class="tk-pillar-button" data-pillar="net" href="#"><span data-tk-slot="label">.net</span><span data-tk-slot="name">Docs &amp; distribution</span><span data-tk-slot="count">version history</span></a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">tekrogen · publishing system</p>
+      <h1 class="display">We build real solutions to real problems.</h1>
+      <p class="lead">Research, demonstrations, and production-ready products derived from actual implementations — documented openly, then packaged because they work.</p>
+      <div class="hero-cta"><a class="tk-button" data-style="cta" href="#">Explore Case Studies</a><a class="tk-button" data-style="cta" data-variant="secondary" href="#">View Demos</a></div>
+      <div class="tk-stats"><div class="tk-stat"><div data-tk-slot="value">24</div><div data-tk-slot="label">Case studies</div></div><div class="tk-stat"><div data-tk-slot="value">52</div><div data-tk-slot="label">Recon entries</div></div><div class="tk-stat"><div data-tk-slot="value">11</div><div data-tk-slot="label">Live demos</div></div><div class="tk-stat"><div data-tk-slot="value">06</div><div data-tk-slot="label">Products</div></div></div>
+    </div>
+    <div class="tk-flywheel" role="img" aria-label="The Tekrogen flywheel">
+      <svg viewBox="0 0 460 460" aria-hidden="true">
+        <circle data-track cx="230" cy="230" r="160" fill="none" stroke-width="1"/>
+        <path data-arc="org" d="M230 70 A160 160 0 0 1 343.1 116.9" fill="none" stroke-width="3" stroke-linecap="round"/>
+        <path data-arc="studio" d="M390 230 A160 160 0 0 1 343.1 343.1" fill="none" stroke-width="3" stroke-linecap="round"/>
+        <path data-arc="com" d="M230 390 A160 160 0 0 1 116.9 343.1" fill="none" stroke-width="3" stroke-linecap="round"/>
+        <path data-arc="net" d="M70 230 A160 160 0 0 1 116.9 116.9" fill="none" stroke-width="3" stroke-linecap="round"/>
+        <circle data-node data-pillar="org" cx="230" cy="70" r="9"/><circle data-node data-pillar="org" cx="343.1" cy="116.9" r="7"/>
+        <circle data-node data-pillar="studio" cx="390" cy="230" r="7"/><circle data-node data-pillar="studio" cx="343.1" cy="343.1" r="7"/>
+        <circle data-node data-pillar="com" cx="230" cy="390" r="9"/><circle data-node data-pillar="com" cx="116.9" cy="343.1" r="7"/>
+        <circle data-node data-pillar="net" cx="70" cy="230" r="7"/><circle data-node data-pillar="net" cx="116.9" cy="116.9" r="7"/>
+        <text x="230" y="58" text-anchor="middle">01 · use case</text><text x="360" y="120" text-anchor="start">02 · recon</text>
+        <text x="406" y="234" text-anchor="start">03 · demo</text><text x="360" y="360" text-anchor="start">04 · register</text>
+        <text x="230" y="410" text-anchor="middle">05 · product</text><text x="100" y="360" text-anchor="end">06 · license</text>
+        <text x="54" y="234" text-anchor="end">07 · download</text><text x="100" y="120" text-anchor="end">08 · docs</text>
+        <text data-tk-slot="core" x="230" y="226" text-anchor="middle">build → prove</text><text data-tk-slot="core" x="230" y="244" text-anchor="middle">→ package</text>
+      </svg>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-top:0">
+    <div class="tk-section-head"><div><p data-tk-slot="eyebrow">.org · use case studies</p><h2 data-tk-slot="title">Featured studies.</h2></div><a class="tk-button" data-style="cta" data-variant="secondary" href="#">All studies <span data-tk-slot="hint">↗</span></a></div>
+    <div class="cards">
+      <article class="tk-content-card" data-pillar="org"><div data-tk-slot="head"><span class="tk-badge" data-pillar="org">.org</span><span class="meta">EBIA · finance</span></div><h3>Token-safe Plaid integration on a four-week budget.</h3><p data-tk-slot="desc">Why we kept access tokens server-side, what we gave up, and the revocation path that shipped.</p><div data-tk-slot="rel"><span class="tk-label" data-variant="chip" data-pillar="org">recon</span><span class="tk-label" data-variant="chip" data-pillar="studio">demo</span><span class="tk-label" data-variant="chip" data-pillar="com">product</span></div></article>
+      <article class="tk-content-card" data-pillar="org"><div data-tk-slot="head"><span class="tk-badge" data-pillar="org">.org</span><span class="meta">Logistics · SaaS</span></div><h3>Cutting dispatcher idle-time by 38% with route replay.</h3><p data-tk-slot="desc">A deliberate non-real-time architecture, the trade-offs, and what shipped.</p><div data-tk-slot="rel"><span class="tk-label" data-variant="chip" data-pillar="org">recon</span><span class="tk-label" data-variant="chip" data-pillar="studio">demo</span><span class="tk-label" data-variant="chip" data-pillar="com">product</span></div></article>
+      <article class="tk-content-card" data-pillar="org"><div data-tk-slot="head"><span class="tk-badge" data-pillar="org">.org</span><span class="meta">Education · K-12</span></div><h3>A teacher dashboard that ships in a single SQLite file.</h3><p data-tk-slot="desc">Local-first over a hosted backend — how state syncs and where it breaks.</p><div data-tk-slot="rel"><span class="tk-label" data-variant="chip" data-pillar="studio">demo</span><span class="tk-label" data-variant="chip" data-pillar="com">product</span></div></article>
+    </div>
+  </section>
+  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
+    <div data-tk-slot="col" data-pillar="org"><h5>.org</h5><a href="#">Use Case Studies</a><a href="#">Recon</a></div><div data-tk-slot="col" data-pillar="studio"><h5>.studio</h5><a href="#">Demos</a></div><div data-tk-slot="col" data-pillar="com"><h5>.com</h5><a href="#">Products</a></div><div data-tk-slot="col" data-pillar="net"><h5>.net</h5><a href="#">Documentation</a></div></div></div></footer>
+ </div>
+</section>
+
+<!-- ===== S2 — channel-use-case-studies.hbs (listing) ===== -->
+<section class="screen" id="s2">
+ <div class="frame">
+  <div class="frame-bar"><div class="frame-dots"><span></span><span></span><span></span></div><span class="frame-url">tekrogen.<b>org</b> / case-studies /</span></div>
+  <header class="tk-site-header" data-style="framed"><div data-tk-slot="inner"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></div><nav data-tk-slot="nav"><a href="#">Home</a><a href="#" aria-current="page">Case Studies</a><a href="#">Recon</a><a href="#">Demos</a><a href="#">Products</a><a href="#">Documentation</a><a href="#">About</a></nav><div data-tk-slot="util"><span class="tk-label">Search</span><a class="tk-button" data-style="cta" data-variant="secondary" href="#">Sign in</a></div></div></header>
+  <div class="classbar var-org"><span>Case Studies <b>24</b></span><span><b>.org</b> · knowledge base</span><span>Newest first</span></div>
+  <section class="wrap">
+    <div class="tk-section-head"><div><p data-tk-slot="eyebrow">.org · use case studies</p><h2 data-tk-slot="title">Every build, documented honestly.</h2></div></div>
+    <div class="listing">
+      <article class="tk-listing-card" data-pillar="org"><span data-tk-slot="ind">EBIA · personal finance</span><h3>Token-safe Plaid integration on a four-week budget.</h3><p data-tk-slot="desc">The problem, the acceptance criteria, the stack decision, and what we'd do differently — written for the engineer who has to maintain it.</p><div data-tk-slot="rel"><div class="r"><b>Recon</b><a href="#">Token vaults vs. server-only</a></div><div class="r"><b>Demo</b><a href="#">Banking panel · live</a></div><div class="r"><b>Product</b><a href="#">Plaid Integration Template</a></div></div></article>
+      <article class="tk-listing-card" data-pillar="org"><span data-tk-slot="ind">Logistics · SaaS</span><h3>Cutting dispatcher idle-time by 38% with route replay.</h3><p data-tk-slot="desc">Why a six-person team chose a deliberate non-real-time architecture, what they gave up, and what shipped.</p><div data-tk-slot="rel"><div class="r"><b>Recon</b><a href="#">MapLibre vs. Mapbox vs. Tangram</a></div><div class="r"><b>Demo</b><a href="#">Replay viewer · live</a></div><div class="r"><b>Product</b><a href="#">Spine — fleet replay</a></div></div></article>
+      <article class="tk-listing-card" data-pillar="org"><span data-tk-slot="ind">Healthcare · compliance</span><h3>Audit-grade PDF capture without a headless browser.</h3><p data-tk-slot="desc">Replacing a Chromium pipeline with a deterministic renderer — and the trade-offs accepted for reproducible builds.</p><div data-tk-slot="rel"><div class="r"><b>Recon</b><a href="#">Six PDF backends, qualitatively</a></div><div class="r"><b>Demo</b><a href="#">Render-as-a-service · sandbox</a></div></div></article>
+      <article class="tk-listing-card" data-pillar="org"><span data-tk-slot="ind">Education · K-12</span><h3>A teacher dashboard that ships in a single SQLite file.</h3><p data-tk-slot="desc">Local-first over a hosted backend, how grading state syncs, and where the approach starts to break.</p><div data-tk-slot="rel"><div class="r"><b>Demo</b><a href="#">Class roster · prototype</a></div><div class="r"><b>Product</b><a href="#">Facet — classroom kit</a></div></div></article>
+    </div>
+  </section>
+  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
+    <div data-tk-slot="col" data-pillar="org"><h5>.org</h5><a href="#">Use Case Studies</a><a href="#">Recon</a></div><div data-tk-slot="col" data-pillar="studio"><h5>.studio</h5><a href="#">Demos</a></div><div data-tk-slot="col" data-pillar="com"><h5>.com</h5><a href="#">Products</a></div><div data-tk-slot="col" data-pillar="net"><h5>.net</h5><a href="#">Documentation</a></div></div></div></footer>
+ </div>
+</section>
+
+<!-- ===== S3 — custom-use-case-study.hbs (FULL WIDTH reader) ===== -->
+<section class="screen" id="s3">
+ <div class="frame">
+  <div class="frame-bar"><div class="frame-dots"><span></span><span></span><span></span></div><span class="frame-url">tekrogen.<b>org</b> / articles / plaid-token-safe-integration /</span></div>
+  <header class="tk-site-header" data-style="framed"><div data-tk-slot="inner"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></div><nav data-tk-slot="nav"><a href="#">Home</a><a href="#" aria-current="page">Case Studies</a><a href="#">Recon</a><a href="#">Demos</a><a href="#">Products</a><a href="#">Documentation</a><a href="#">About</a></nav><div data-tk-slot="util"><span class="tk-label">Search</span><a class="tk-button" data-style="cta" data-variant="secondary" href="#">Sign in</a></div></div></header>
+  <div class="classbar var-org"><span>Case Study <b>№C07</b></span><span><b>.org</b> · use case study</span><span>Shipped</span><span>2026-05-30</span></div>
+  <div class="ucs">
+    <aside class="toc-rail">
+      <nav class="toc">
+        <a class="on" href="#"><span class="nn">01</span> The Problem</a>
+        <a href="#"><span class="nn">02</span> Acceptance Criteria</a>
+        <a href="#"><span class="nn">03</span> The Stack Decision</a>
+        <a href="#"><span class="nn">04</span> Key Trade-offs</a>
+        <a href="#"><span class="nn">05</span> The Build</a>
+        <a href="#"><span class="nn">06</span> What We'd Do Differently</a>
+        <a href="#"><span class="nn">07</span> The Outcome</a>
+        <a href="#"><span class="nn">08</span> Next</a>
+      </nav>
+      <div class="rt-card"><p class="meta">Reading time</p><p style="margin:0;font-size:14px;color:var(--tk-fg-2)">11 min · 2,400 words</p></div>
+    </aside>
+    <div class="ucs-body">
+      <p class="eyebrow">07 · ebia · personal finance</p>
+      <h1>Token-safe Plaid integration on a four-week budget.</h1>
+      <p class="lead italic-dek">Why we kept access tokens server-side, what we gave up to do it, and the revocation path that actually shipped — for the engineer who has to maintain it.</p>
+      <div style="display:flex;gap:8px;margin:18px 0 var(--tk-space-12);flex-wrap:wrap"><span class="tk-label">next.js</span><span class="tk-label">server actions</span><span class="tk-label">plaid</span><span class="tk-label">postgres</span></div>
+
+      <section><div class="tk-section-head" data-size="sm"><div><p data-tk-slot="eyebrow">The Problem</p></div><span data-tk-slot="meta">01</span></div>
+        <p>EBIA needed to link real bank accounts on day one, but the team was four engineers on a four-week budget. The obvious path — a hosted aggregator widget that stored tokens for us — failed the one constraint we couldn't move: a breach of our database must not expose anyone's banking credentials. The question wasn't "which vendor," it was "where does the secret live, and who is liable when it leaks."</p></section>
+
+      <section><div class="tk-section-head" data-size="sm"><div><p data-tk-slot="eyebrow">Acceptance Criteria</p></div><span data-tk-slot="meta">02</span></div>
+        <ul class="ac-list"><li>No long-lived access token ever reaches the browser.</li><li>A database dump alone cannot reconstruct a usable token.</li><li>Revocation propagates within one webhook cycle.</li><li>The whole exchange fits in a Server Action — no extra service.</li></ul></section>
+
+      <section><div class="tk-section-head" data-size="sm"><div><p data-tk-slot="eyebrow">The Stack Decision</p></div><span data-tk-slot="meta">03</span></div>
+        <p>We scouted four approaches in the recon note (linked in the sidebar) and chose server-only session handling: the browser holds a short-lived public link token, the access token is exchanged and used entirely inside a Server Action, and only an encrypted session handle is persisted. The decision belonged to the constraints — a small team that can defend a small surface — not to a feature score.</p></section>
+
+      <section><div class="tk-section-head" data-size="sm"><div><p data-tk-slot="eyebrow">Key Trade-offs</p></div><span data-tk-slot="meta">04</span></div>
+        <table class="tk-table"><thead><tr><th>We chose</th><th>We gave up</th></tr></thead><tbody>
+          <tr><td><b>Server-only token exchange</b></td><td>Re-auth when a session is lost; no offline token reuse.</td></tr>
+          <tr><td><b>Encrypted session handle</b></td><td>An extra KMS dependency in the deploy.</td></tr>
+          <tr><td><b>Webhook-driven revocation</b></td><td>Eventual consistency — a few seconds of lag.</td></tr>
+        </tbody></table></section>
+
+      <section><div class="tk-section-head" data-size="sm"><div><p data-tk-slot="eyebrow">The Build</p></div><span data-tk-slot="meta">05</span></div>
+        <p>The exchange runs in a single Server Action; the public link token is the only thing the client ever holds. Revocation arrives by webhook, invalidates the encrypted handle, and is queued with retry + backoff so a transient Plaid outage can't drop a revocation on the floor. Multi-item households aggregate several linked accounts per user behind one handle.</p></section>
+
+      <section><div class="tk-section-head" data-size="sm"><div><p data-tk-slot="eyebrow">What We'd Do Differently</p></div><span data-tk-slot="meta">06</span></div>
+        <p>We'd move the queue off the app process sooner. It was fine at pilot scale, but the moment a second product wanted the same revocation guarantees, the in-process queue became the thing we had to extract. The hardened build ships that separation by default.</p></section>
+
+      <section><div class="tk-section-head" data-size="sm"><div><p data-tk-slot="eyebrow">The Outcome</p></div><span data-tk-slot="meta">07</span></div>
+        <p>Shipped in the four-week window. Zero tokens at rest, revocation inside one webhook cycle, and a clean enough boundary that the whole thing became the first paid template on .com. The replay of the reasoning is below.</p></section>
+
+      <div class="tk-cta-block" data-pillar="com"><p class="eyebrow">next step</p><h3 style="margin:0">Try it, then take the template.</h3>
+        <div data-tk-slot="actions"><a class="tk-button" data-style="cta" data-variant="secondary" href="#">Run the demo <span data-tk-slot="hint">↗ studio</span></a><a class="tk-button" data-style="cta" data-pillar="com" href="#">Get the template <span data-tk-slot="hint">↗ com</span></a></div></div>
+      <div class="stamp">End of file · C07</div>
+      <div class="endfile">— documenting the build —</div>
+    </div>
+  </div>
+  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
+    <div data-tk-slot="col" data-pillar="org"><h5>.org</h5><a href="#">Use Case Studies</a><a href="#">Recon</a></div><div data-tk-slot="col" data-pillar="studio"><h5>.studio</h5><a href="#">Demos</a></div><div data-tk-slot="col" data-pillar="com"><h5>.com</h5><a href="#">Products</a></div><div data-tk-slot="col" data-pillar="net"><h5>.net</h5><a href="#">Documentation</a></div></div></div></footer>
+ </div>
+</section>
+
+<!-- ===== S4 — custom-recon.hbs (qualitative, no scores) ===== -->
+<section class="screen" id="s4">
+ <div class="frame">
+  <div class="frame-bar"><div class="frame-dots"><span></span><span></span><span></span></div><span class="frame-url">tekrogen.<b>org</b> / recon / token-vaults-vs-server-only /</span></div>
+  <header class="tk-site-header" data-style="framed"><div data-tk-slot="inner"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></div><nav data-tk-slot="nav"><a href="#">Home</a><a href="#">Case Studies</a><a href="#" aria-current="page">Recon</a><a href="#">Demos</a><a href="#">Products</a><a href="#">Documentation</a><a href="#">About</a></nav><div data-tk-slot="util"><span class="tk-label">Search</span><a class="tk-button" data-style="cta" data-variant="secondary" href="#">Sign in</a></div></div></header>
+  <div class="classbar var-org"><span>Recon <b>№R12</b></span><span><b>.org</b> · recon</span><span>Qualitative · no scores</span></div>
+  <section class="wrap">
+    <span class="tk-badge" data-pillar="org">.org · recon</span>
+    <h1 class="display" style="margin-top:18px;max-width:18ch">Token vaults vs. server-only: where the secret lives.</h1>
+    <p class="lead italic-dek" style="margin-top:18px">Scouting the candidate approaches for the banking demo's secret handling — what each costs, and why the call belongs to the constraints, not a number.</p>
+    <div style="display:flex;gap:8px;margin:20px 0 var(--tk-space-8);flex-wrap:wrap"><span class="tk-label">methods + tools</span><span class="tk-label">security</span></div>
+    <div class="tk-callout" style="margin-bottom:var(--tk-space-12)">Recon is qualitative. It narrows the field and documents trade-offs — <strong>no ratings, ever</strong>. The final stack decision belongs to the stakeholders' skills and the client's constraints.</div>
+
+    <h2>Candidates considered</h2>
+    <table class="tk-table" style="margin-top:var(--tk-space-5)"><thead><tr><th>Candidate</th><th>Strengths</th><th>Costs</th><th>Fit for the demo</th></tr></thead><tbody>
+      <tr><td><b>Server-only session</b> <span class="chosen">✓ chosen</span></td><td>No token at rest; smallest surface</td><td>Re-auth on session loss</td><td>Strong — matches the AC</td></tr>
+      <tr><td><b>Third-party token vault</b></td><td>Turnkey rotation + audit</td><td>Another vendor in the breach surface; cost</td><td>Weak — adds dependency</td></tr>
+      <tr><td><b>Encrypted DB column</b></td><td>Simple to reason about</td><td>Keys still live with us; honest retro is hard</td><td>Fair — fails the "defend it" test</td></tr>
+      <tr><td><b>Client-side Link only</b></td><td>Least backend work</td><td>Leaks too much to the browser</td><td>Rejected</td></tr>
+    </tbody></table>
+
+    <h2 style="margin-top:var(--tk-space-12)">Sources</h2>
+    <ul class="sources" style="margin-top:var(--tk-space-5)">
+      <li><span class="n">[1]</span> Plaid docs — item lifecycle &amp; webhook revocation.</li>
+      <li><span class="n">[2]</span> OWASP — secrets management cheat sheet.</li>
+      <li><span class="n">[3]</span> Internal: EBIA threat-model notes.</li>
+    </ul>
+
+    <div class="tk-callout" data-pillar="com" style="border-left-color:var(--tk-com);margin-top:var(--tk-space-12);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+      <span><strong>Decision → the stack:</strong> server-only session handling, Plaid webhook for revocation. Feeds the banking-panel demo.</span>
+      <span class="feeds">→ feeds the demo</span></div>
+  </section>
+  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
+    <div data-tk-slot="col" data-pillar="org"><h5>.org</h5><a href="#">Use Case Studies</a><a href="#">Recon</a></div><div data-tk-slot="col" data-pillar="studio"><h5>.studio</h5><a href="#">Demos</a></div><div data-tk-slot="col" data-pillar="com"><h5>.com</h5><a href="#">Products</a></div><div data-tk-slot="col" data-pillar="net"><h5>.net</h5><a href="#">Documentation</a></div></div></div></footer>
+ </div>
+</section>
+
+<!-- ===== S5 — custom-proof-of-concept.hbs (demo, registration-gated) ===== -->
+<section class="screen" id="s5">
+ <div class="frame">
+  <div class="frame-bar"><div class="frame-dots"><span></span><span></span><span></span></div><span class="frame-url">tekrogen.<b>studio</b> / poc / banking-panel /</span></div>
+  <header class="tk-site-header" data-style="framed"><div data-tk-slot="inner"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></div><nav data-tk-slot="nav"><a href="#">Home</a><a href="#">Case Studies</a><a href="#">Recon</a><a href="#" aria-current="page">Demos</a><a href="#">Products</a><a href="#">Documentation</a><a href="#">About</a></nav><div data-tk-slot="util"><span class="tk-label">Search</span><a class="tk-button" data-style="cta" data-variant="secondary" href="#">Sign in</a></div></div></header>
+  <div class="classbar var-studio"><span>Demo <b>№D04</b></span><span><b>.studio</b> · proof of concept</span><span>Live · MIT starter</span></div>
+  <div class="wrap" style="padding-bottom:0">
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="tk-badge" data-pillar="studio">.studio · demo</span><span class="tk-label" style="border-color:var(--tk-net);color:var(--tk-net)">● Live</span><span class="tk-label">v0.3 · prototype</span></div>
+    <h1 style="margin-top:14px">Banking panel — proof of concept.</h1>
+    <p class="lead italic-dek">The token-safe Plaid flow from the case study, running. Read it freely; downloading the starter needs a free account.</p>
+    <div class="demo-cta"><a class="tk-button" data-style="cta" data-pillar="studio" href="#">Launch full demo <span data-tk-slot="hint">↗ studio.tekrogen / banking-panel</span></a><a class="tk-button" data-style="cta" data-variant="secondary" href="#">Read the Case Study</a></div>
+  </div>
+  <!-- partial: demo-metadata -->
+  <div class="tk-demo-meta"><div><div data-tk-slot="key">Status</div><div data-tk-slot="val">● Live · stable</div></div><div><div data-tk-slot="key">Version</div><div data-tk-slot="val" data-mono>v0.3.1 · 2026-05-22</div></div><div><div data-tk-slot="key">Default license</div><div data-tk-slot="val">MIT (demo source)</div></div><div><div data-tk-slot="key">Time to try</div><div data-tk-slot="val">~3 minutes</div></div></div>
+  <div class="tk-demo-preview"><span class="meta">live preview · &lt;iframe&gt; embed</span></div>
+  <div class="tk-demo-shots"><div class="tk-demo-shot">screenshot 01</div><div class="tk-demo-shot">screenshot 02</div><div class="tk-demo-shot">screenshot 03</div></div>
+  <section class="wrap" style="padding-bottom:0"><h2>Stack</h2><div class="stack"><span class="tk-label" data-variant="tag">next.js · 15</span><span class="tk-label" data-variant="tag">server actions</span><span class="tk-label" data-variant="tag">plaid</span><span class="tk-label" data-variant="tag">typescript</span><span class="tk-label" data-variant="tag">prisma</span><span class="tk-label" data-variant="tag">vitest</span></div></section>
+  <section class="wrap" style="padding-bottom:0"><h2>Technical notes</h2><p style="max-width:72ch">The exchange runs entirely in a Server Action; the browser only ever holds a public link token. Revocation arrives by webhook and invalidates the encrypted session handle. Everything here is the demo-grade path — the hardened build ships in the template.</p></section>
+  <!-- partial: artifact-downloads + membership-gate (full-width) -->
+  <section class="wrap" style="padding-bottom:0"><h2>Artifact downloads</h2></section>
+  <div class="tk-artifact-list" data-pillar="studio">
+    <div data-tk-slot="gate">
+      <div class="al"><span class="lock">⊘ Registration required · free tier</span><h3>Download the free starter (MIT).</h3><p class="desc" style="margin:0;max-width:54ch">Anonymous visitors can read and run the demo. A free Tekrogen account unlocks the source bundle, the sample dataset, and the architecture diagram.</p></div>
+      <div class="actions"><a class="tk-button" data-style="cta" data-pillar="studio" href="#">Create free account</a><a class="tk-button" data-style="cta" data-variant="secondary" href="#">Sign in</a></div>
+    </div>
+    <div data-tk-slot="row"><span class="name">banking-panel-source.zip</span><span class="size">3.8 MB</span><a class="dl" href="#">Sign in to download</a></div>
+    <div data-tk-slot="row"><span class="name">sample-transactions.csv</span><span class="size">12 MB</span><a class="dl" href="#">Sign in to download</a></div>
+    <div data-tk-slot="row"><span class="name">architecture-diagram.pdf</span><span class="size">220 KB</span><a class="dl" href="#">Sign in to download</a></div>
+    <div data-tk-slot="row"><span class="name">walkthrough-recording.mp4</span><span class="size">68 MB</span><a class="dl" href="#">Sign in to download</a></div>
+  </div>
+  <section class="wrap"><div class="tk-cta-block" data-pillar="studio"><p class="eyebrow">next step</p><h3 style="margin:0">This demo came from a study — and becomes a product.</h3>
+    <p class="italic-dek">Read the reasoning, or get the production template.</p>
+    <div data-tk-slot="actions"><a class="tk-button" data-style="cta" data-variant="secondary" href="#">Read the Case Study <span data-tk-slot="hint">↗ org/articles</span></a><a class="tk-button" data-style="cta" data-pillar="com" href="#">View Product <span data-tk-slot="hint">↗ com/products</span></a></div></div></section>
+  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
+    <div data-tk-slot="col" data-pillar="org"><h5>.org</h5><a href="#">Use Case Studies</a><a href="#">Recon</a></div><div data-tk-slot="col" data-pillar="studio"><h5>.studio</h5><a href="#">Demos</a></div><div data-tk-slot="col" data-pillar="com"><h5>.com</h5><a href="#">Products</a></div><div data-tk-slot="col" data-pillar="net"><h5>.net</h5><a href="#">Documentation</a></div></div></div></footer>
+ </div>
+</section>
+
+<!-- ===== S6 — custom-product.hbs (Cursor layout: stepper + hero + license matrix) ===== -->
+<section class="screen" id="s6">
+ <div class="frame">
+  <div class="frame-bar"><div class="frame-dots"><span></span><span></span><span></span></div><span class="frame-url">tekrogen.<b>com</b> / products / spine /</span></div>
+  <header class="tk-site-header" data-style="framed"><div data-tk-slot="inner"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></div><nav data-tk-slot="nav"><a href="#">Home</a><a href="#">Case Studies</a><a href="#">Recon</a><a href="#">Demos</a><a href="#" aria-current="page">Products</a><a href="#">Documentation</a><a href="#">About</a></nav><div data-tk-slot="util"><span class="tk-label">Search</span><a class="tk-button" data-style="cta" data-variant="secondary" href="#">Account</a><a class="tk-button" data-style="cta" data-pillar="com" href="#">Cart · 0</a></div></div></header>
+  <!-- flywheel stepper -->
+  <nav class="tk-flywheel-stepper" aria-label="Flywheel position">
+    <div data-tk-slot="step" data-pillar="org" data-state="done"><span data-tk-slot="num">01 · org</span><span data-tk-slot="name">Use case</span></div>
+    <div data-tk-slot="step" data-pillar="org" data-state="done"><span data-tk-slot="num">02 · org</span><span data-tk-slot="name">Recon</span></div>
+    <div data-tk-slot="step" data-pillar="studio" data-state="done"><span data-tk-slot="num">03 · studio</span><span data-tk-slot="name">Demo / POC</span></div>
+    <div data-tk-slot="step" data-pillar="studio" data-state="done"><span data-tk-slot="num">04 · studio</span><span data-tk-slot="name">Registration</span></div>
+    <div data-tk-slot="step" data-pillar="com" data-state="here"><span data-tk-slot="num">05 · com</span><span data-tk-slot="name">Product</span></div>
+    <div data-tk-slot="step" data-pillar="com" data-state="here"><span data-tk-slot="num">06 · com</span><span data-tk-slot="name">License</span></div>
+    <div data-tk-slot="step" data-pillar="net"><span data-tk-slot="num">07 · net</span><span data-tk-slot="name">Download</span></div>
+    <div data-tk-slot="step" data-pillar="net"><span data-tk-slot="num">08 · net</span><span data-tk-slot="name">Docs / version</span></div>
+  </nav>
+  <section class="tk-product-hero">
+    <div data-tk-slot="body">
+      <span class="tk-badge" data-pillar="com">.com · product</span>
+      <h1 style="margin-top:14px">Spine — fleet replay engine.</h1>
+      <p class="lead">A production-grade route-replay engine for telemetry. Drop-in React component, headless engine for any framework, deterministic CSV/Parquet export, and a small Go API service if you want it self-hosted.</p>
+      <div data-tk-slot="price"><div class="amt"><span class="from">from</span>$129</div><div class="term">one-time · per developer</div><div class="lic">Standard · Extended · Team</div></div>
+      <div class="demo-cta"><a class="tk-button" data-style="cta" data-pillar="com" href="#">Pick a license →</a><a class="tk-button" data-style="cta" data-variant="secondary" href="#">Try the demo first</a></div>
+      <div data-tk-slot="summary">
+        <div>React component, headless engine, and Go API — pick what you need.</div>
+        <div>Deterministic export — same input data, identical output bytes.</div>
+        <div>Six-month update window included; commercial deployment from $129.</div>
+        <div>Built from a working case study and a public demo, not a slide deck.</div>
+      </div>
+    </div>
+    <div data-tk-slot="visual">
+      <div><span class="tk-badge" data-pillar="com">.com · v0.4.2</span></div>
+      <div class="v-foot"><span>Latest release</span><span class="d">2026-05-28</span></div>
+    </div>
+  </section>
+  <!-- license matrix — the centerpiece -->
+  <section class="lic-section">
+    <div class="tk-section-head"><div><p data-tk-slot="eyebrow" style="color:var(--tk-com)">License tiers</p><h2 data-tk-slot="title">Pick the tier that matches the deployment.</h2></div><p class="desc" style="max-width:38ch;margin:0">All paid tiers include source, six months of updates, and email support. The MIT tier is the demo source — free, no support.</p></div>
+    <div class="tk-license-grid">
+      <article class="tk-license-tier"><div data-tk-slot="name">MIT · free</div><div data-tk-slot="price">$0</div><p data-tk-slot="desc">The demo source, MIT-licensed. For evaluation, study, and non-commercial use.</p>
+        <ul data-tk-slot="features"><li>Demo source code</li><li>Sample dataset</li><li>Architecture diagram</li><li data-state="excluded">Production support</li><li data-state="excluded">Commercial deployment</li></ul>
+        <a data-tk-slot="cta" href="#">Get the demo source</a></article>
+      <article class="tk-license-tier" data-variant="featured"><span data-tk-slot="ribbon">Recommended</span><div data-tk-slot="name">Standard</div><div data-tk-slot="price">$129<span class="term">/ dev</span></div><p data-tk-slot="desc">One developer, one production deployment. The default tier for indie shops.</p>
+        <ul data-tk-slot="features"><li>Full source · React + headless engine</li><li>One internal production deployment</li><li>Six months of updates</li><li>Email support</li><li data-state="excluded">Sub-license to clients</li></ul>
+        <a data-tk-slot="cta" data-variant="buy" href="#">Buy Standard →</a></article>
+      <article class="tk-license-tier"><div data-tk-slot="name">Extended</div><div data-tk-slot="price">$429<span class="term">/ dev</span></div><p data-tk-slot="desc">Sub-license rights for client work. The default tier for consultancies.</p>
+        <ul data-tk-slot="features"><li>Everything in Standard</li><li>Sub-license to one end-customer</li><li>Twelve months of updates</li><li>Priority email support</li><li data-state="excluded">Multi-team deployment</li></ul>
+        <a data-tk-slot="cta" href="#">Buy Extended →</a></article>
+      <article class="tk-license-tier"><div data-tk-slot="name">Team</div><div data-tk-slot="price">$1,490</div><p data-tk-slot="desc">Up to ten developers, unlimited internal deployments, twelve months of updates.</p>
+        <ul data-tk-slot="features"><li>Everything in Extended</li><li>Up to 10 developers</li><li>Unlimited internal deployments</li><li>Twelve months of updates</li><li>Quarterly office hours</li></ul>
+        <a data-tk-slot="cta" href="#">Buy Team →</a></article>
+    </div>
+  </section>
+  <!-- features + tech/checkout aside -->
+  <section class="prod-features">
+    <div>
+      <div class="tk-section-head" style="margin-bottom:var(--tk-space-6)"><div><p data-tk-slot="eyebrow" style="color:var(--tk-com)">What you get</p><h2 data-tk-slot="title">Built for drop-in.</h2></div></div>
+      <div class="tk-feature-grid">
+        <div class="tk-feature"><div data-tk-slot="name">Headless engine</div><div data-tk-slot="desc">A small TypeScript core with no UI dependency. Wire it into any framework, or run it server-side.</div></div>
+        <div class="tk-feature"><div data-tk-slot="name">React component</div><div data-tk-slot="desc">A polished &lt;ReplayViewer/&gt; with a slot system for custom overlays.</div></div>
+        <div class="tk-feature"><div data-tk-slot="name">Deterministic export</div><div data-tk-slot="desc">CSV and Parquet output is byte-for-byte reproducible from identical input.</div></div>
+        <div class="tk-feature"><div data-tk-slot="name">Self-hostable API</div><div data-tk-slot="desc">A small Go service for hourly batch ingest. Ships as a container image.</div></div>
+        <div class="tk-feature"><div data-tk-slot="name">Map-vendor agnostic</div><div data-tk-slot="desc">Adapters for MapLibre, Mapbox GL, and a no-map canvas fallback.</div></div>
+        <div class="tk-feature"><div data-tk-slot="name">Audit-grade replay file</div><div data-tk-slot="desc">One Parquet file per shift, documented schema, stable URL-state model.</div></div>
+      </div>
+    </div>
+    <aside>
+      <div class="tech-block"><h4>Technology stack</h4><div class="stack"><span class="tk-label" data-variant="tag">typescript</span><span class="tk-label" data-variant="tag">react · 18</span><span class="tk-label" data-variant="tag">go</span><span class="tk-label" data-variant="tag">duckdb-wasm</span><span class="tk-label" data-variant="tag">parquet</span><span class="tk-label" data-variant="tag">maplibre · 4</span></div>
+        <h4>Checkout flow</h4>
+        <div class="crow"><span class="n">01</span> Pick a license tier above.</div>
+        <div class="crow"><span class="n">02</span> Checkout opens in a LemonSqueezy panel — card, PayPal, or invoice.</div>
+        <div class="crow"><span class="n">03</span> License key + download link arrive by email and to your dashboard.</div>
+        <div class="crow"><span class="n">04</span> Updates ship to .net for the duration of your update window.</div>
+      </div>
+    </aside>
+  </section>
+  <section class="wrap" style="padding-top:0">
+    <div class="tk-section-head"><div><p data-tk-slot="eyebrow" style="color:var(--tk-com)">Where this came from</p><h2 data-tk-slot="title">The full pillar trail.</h2></div></div>
+    <div class="cards">
+      <article class="tk-content-card" data-pillar="org"><div data-tk-slot="head"><span class="tk-badge" data-pillar="org">.org</span><span class="meta">use case</span></div><h3>The four-week build behind it.</h3><p data-tk-slot="desc">Trade-offs, the build, what we'd do differently.</p></article>
+      <article class="tk-content-card" data-pillar="studio"><div data-tk-slot="head"><span class="tk-badge" data-pillar="studio">.studio</span><span class="meta">demo</span></div><h3>Try the engine in the browser.</h3><p data-tk-slot="desc">No account required to run it.</p></article>
+      <article class="tk-content-card" data-pillar="net"><div data-tk-slot="head"><span class="tk-badge" data-pillar="net">.net</span><span class="meta">docs</span></div><h3>Spine 0.4.2 documentation.</h3><p data-tk-slot="desc">Install, API reference, release notes, version history.</p></article>
+    </div>
+  </section>
+  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
+    <div data-tk-slot="col" data-pillar="org"><h5>.org</h5><a href="#">Use Case Studies</a><a href="#">Recon</a></div><div data-tk-slot="col" data-pillar="studio"><h5>.studio</h5><a href="#">Demos</a></div><div data-tk-slot="col" data-pillar="com"><h5>.com</h5><a href="#">Products</a></div><div data-tk-slot="col" data-pillar="net"><h5>.net</h5><a href="#">Documentation</a></div></div></div></footer>
+ </div>
+</section>
+
+<!-- ===== S7 — channel-documentation.hbs (Cursor layout: stepper + dist pipeline + cat grid + timeline) ===== -->
+<section class="screen" id="s7">
+ <div class="frame">
+  <div class="frame-bar"><div class="frame-dots"><span></span><span></span><span></span></div><span class="frame-url">tekrogen.<b>net</b> / docs / spine /</span></div>
+  <header class="tk-site-header" data-style="framed"><div data-tk-slot="inner"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></div><nav data-tk-slot="nav"><a href="#">Home</a><a href="#">Case Studies</a><a href="#">Recon</a><a href="#">Demos</a><a href="#">Products</a><a href="#" aria-current="page">Documentation</a><a href="#">About</a></nav><div data-tk-slot="util"><span class="tk-label">Search docs</span><a class="tk-button" data-style="cta" data-pillar="net" href="#">Customer portal</a></div></div></header>
+  <nav class="tk-flywheel-stepper" aria-label="Flywheel position">
+    <div data-tk-slot="step" data-pillar="org" data-state="done"><span data-tk-slot="num">01 · org</span><span data-tk-slot="name">Use case</span></div>
+    <div data-tk-slot="step" data-pillar="org" data-state="done"><span data-tk-slot="num">02 · org</span><span data-tk-slot="name">Recon</span></div>
+    <div data-tk-slot="step" data-pillar="studio" data-state="done"><span data-tk-slot="num">03 · studio</span><span data-tk-slot="name">Demo / POC</span></div>
+    <div data-tk-slot="step" data-pillar="studio" data-state="done"><span data-tk-slot="num">04 · studio</span><span data-tk-slot="name">Registration</span></div>
+    <div data-tk-slot="step" data-pillar="com" data-state="done"><span data-tk-slot="num">05 · com</span><span data-tk-slot="name">Product</span></div>
+    <div data-tk-slot="step" data-pillar="com" data-state="done"><span data-tk-slot="num">06 · com</span><span data-tk-slot="name">License</span></div>
+    <div data-tk-slot="step" data-pillar="net" data-state="here"><span data-tk-slot="num">07 · net</span><span data-tk-slot="name">Download</span></div>
+    <div data-tk-slot="step" data-pillar="net" data-state="here"><span data-tk-slot="num">08 · net</span><span data-tk-slot="name">Docs / version</span></div>
+  </nav>
+  <section class="tk-docs-hero">
+    <div data-tk-slot="body">
+      <span class="tk-badge" data-pillar="net">.net · distribution</span>
+      <h1 style="margin-top:14px">Spine — documentation &amp; releases.</h1>
+      <p class="lead">Install, API reference, migration guides, and the full release timeline for the Spine fleet replay engine. Paid members open the customer portal for license keys, version updates, and order history.</p>
+      <div data-tk-slot="search"><span style="color:var(--tk-fg-4)">⌕</span><input type="search" placeholder="Search this product's documentation…" aria-label="Search docs"/><span class="k">/</span></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="tk-label">spine · 0.4.2</span><span class="tk-label">released 2026-05-28</span><span class="tk-label">node 18+ · go 1.22+</span></div>
+    </div>
+    <div data-tk-slot="aside">
+      <div class="tk-pipeline" data-pillar="net">
+        <div data-tk-slot="head">Distribution architecture · Ghost → LemonSqueezy → portal</div>
+        <div data-tk-slot="nodes">
+          <div data-tk-slot="node"><span class="n">01 · org/com</span><span class="nm">Ghost Pro</span><span class="sub">product page</span></div>
+          <div data-tk-slot="arrow">→</div>
+          <div data-tk-slot="node"><span class="n">02 · com</span><span class="nm">LemonSqueezy</span><span class="sub">checkout · payment</span></div>
+          <div data-tk-slot="arrow">→</div>
+          <div data-tk-slot="node"><span class="n">03 · net</span><span class="nm">License key</span><span class="sub">email + portal</span></div>
+          <div data-tk-slot="arrow">→</div>
+          <div data-tk-slot="node" data-state="active"><span class="n">04 · net</span><span class="nm">Download</span><span class="sub">artifact bundle</span></div>
+          <div data-tk-slot="arrow">→</div>
+          <div data-tk-slot="node"><span class="n">05 · net</span><span class="nm">Customer portal</span><span class="sub">orders · updates</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="cat-grid">
+    <article class="tk-category-card" data-pillar="net"><div data-tk-slot="icon">IN</div><h4>Installation guides.</h4><p>Get Spine running in a fresh Vite + React project, a Next.js app, or as a self-hosted Go service.</p><div data-tk-slot="links"><a href="#">install · npm package</a><a href="#">install · self-hosted api</a><a href="#">migrate from the demo</a></div></article>
+    <article class="tk-category-card" data-pillar="net"><div data-tk-slot="icon">AP</div><h4>API reference.</h4><p>Complete reference for the headless engine, the React component, and the Go ingest API.</p><div data-tk-slot="links"><a href="#">engine · createReplay()</a><a href="#">react · &lt;ReplayViewer/&gt;</a><a href="#">api · POST /v1/shifts</a></div></article>
+    <article class="tk-category-card" data-pillar="net"><div data-tk-slot="icon">TU</div><h4>Tutorials.</h4><p>End-to-end builds derived from the original case studies. Each ships with a downloadable repo.</p><div data-tk-slot="links"><a href="#">build a route-replay dashboard</a><a href="#">self-host the ingest api</a><a href="#">custom map overlays</a></div></article>
+    <article class="tk-category-card" data-pillar="net"><div data-tk-slot="icon">RN</div><h4>Release notes.</h4><p>Every change shipped in Spine, with licensing implications and breaking-change call-outs.</p><div data-tk-slot="links"><a href="#">spine · 0.4.x release notes</a><a href="#">spine · 0.3.x release notes</a><a href="#">migration · 0.3 → 0.4</a></div></article>
+    <article class="tk-category-card" data-pillar="net"><div data-tk-slot="icon">VS</div><h4>Versioning policy.</h4><p>How Tekrogen products version. What "breaking" means, and how long updates remain per tier.</p><div data-tk-slot="links"><a href="#">semver, with caveats</a><a href="#">update windows by tier</a><a href="#">LTS releases</a></div></article>
+    <article class="tk-category-card" data-pillar="net"><div data-tk-slot="icon">CP</div><h4>Customer portal.</h4><p>Paid members manage license keys, download history, and active update windows.</p><div data-tk-slot="links"><a href="#">order history</a><a href="#">download archive</a><a href="#">license inventory</a></div></article>
+  </section>
+  <div class="tk-version-timeline" data-pillar="net">
+    <h3 data-tk-slot="title">spine · version history</h3>
+    <div data-tk-slot="row"><div class="vn">v0.4.2<span class="date">2026-05-28</span></div><div class="vbody"><strong>Deterministic CSV export, telemetry-replay panel.</strong> Exports are byte-for-byte reproducible from the same input. Adds the &lt;TelemetryReplay/&gt; slot.<div class="vchips"><span class="tk-label" data-variant="tag">non-breaking</span><span class="tk-label" data-variant="tag">react</span><span class="tk-label" data-variant="tag">engine</span></div></div><a class="dl" href="#">Download ↗</a></div>
+    <div data-tk-slot="row"><div class="vn">v0.4.1<span class="date">2026-04-11</span></div><div class="vbody"><strong>Bug fixes; Mapbox adapter.</strong> Adds an official Mapbox GL adapter alongside MapLibre and no-map. Fixes URL-state drift on long sessions.<div class="vchips"><span class="tk-label" data-variant="tag">non-breaking</span><span class="tk-label" data-variant="tag">adapters</span></div></div><a class="dl" href="#">Download ↗</a></div>
+    <div data-tk-slot="row"><div class="vn">v0.4.0<span class="date">2026-03-02</span></div><div class="vbody"><strong>First commercial release.</strong> Standard / Extended / Team tiers live. Headless engine separated from the React component. New self-hosted API.<div class="vchips"><span class="tk-label" data-variant="tag" style="color:#e0a92c;border-color:color-mix(in srgb,#e0a92c 50%,transparent)">breaking</span><span class="tk-label" data-variant="tag">licenses</span><span class="tk-label" data-variant="tag">api</span></div></div><a class="dl" href="#">Download ↗</a></div>
+    <div data-tk-slot="row"><div class="vn">v0.3.1<span class="date">2026-01-18</span></div><div class="vbody"><strong>Demo · final.</strong> The MIT-licensed demo source as it shipped from .studio. Frozen — superseded by the v0.4 commercial release.<div class="vchips"><span class="tk-label" data-variant="tag">demo · MIT</span><span class="tk-label" data-variant="tag">archive</span></div></div><a class="dl" href="#">Demo source ↗</a></div>
+  </div>
+  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
+    <div data-tk-slot="col" data-pillar="org"><h5>.org</h5><a href="#">Use Case Studies</a><a href="#">Recon</a></div><div data-tk-slot="col" data-pillar="studio"><h5>.studio</h5><a href="#">Demos</a></div><div data-tk-slot="col" data-pillar="com"><h5>.com</h5><a href="#">Products</a></div><div data-tk-slot="col" data-pillar="net"><h5>.net</h5><a href="#">Documentation</a><a href="#">Releases</a></div></div></div></footer>
+ </div>
+</section>
+
+<!-- ===== S8 — page.hbs (About) ===== -->
+<section class="screen" id="s8">
+ <div class="frame">
+  <div class="frame-bar"><div class="frame-dots"><span></span><span></span><span></span></div><span class="frame-url">tekrogen.<b>org</b> / about /</span></div>
+  <header class="tk-site-header" data-style="framed"><div data-tk-slot="inner"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></div><nav data-tk-slot="nav"><a href="#">Home</a><a href="#">Case Studies</a><a href="#">Recon</a><a href="#">Demos</a><a href="#">Products</a><a href="#">Documentation</a><a href="#" aria-current="page">About</a></nav><div data-tk-slot="util"><span class="tk-label">Search</span><a class="tk-button" data-style="cta" data-variant="secondary" href="#">Sign in</a></div></div></header>
+  <section class="wrap">
+    <p class="eyebrow">about · tekrogen</p>
+    <h1 class="display" style="max-width:14ch">Four wings, one pursuit.</h1>
+    <p class="lead" style="margin-top:18px;max-width:60ch">Build it, prove it, write down what we learned. Tekrogen documents real implementations as transparent case studies — then packages the result as demos and production templates. Not designed to sell; published because it works.</p>
+
+    <div style="margin-top:var(--tk-space-16)"><p class="eyebrow">the system</p><h2>The four pillars</h2></div>
+    <div class="manifesto" style="margin-top:var(--tk-space-6)">
+      <div class="tk-manifesto-card" data-pillar="org"><span data-tk-slot="label">.org</span><h4>Knowledge</h4><p>Use case studies and Recon — the credibility layer.</p></div>
+      <div class="tk-manifesto-card" data-pillar="studio"><span data-tk-slot="label">.studio</span><h4>Demonstration</h4><p>Working proof that the research is real.</p></div>
+      <div class="tk-manifesto-card" data-pillar="com"><span data-tk-slot="label">.com</span><h4>Commerce</h4><p>Production templates, licensing, checkout.</p></div>
+      <div class="tk-manifesto-card" data-pillar="net"><span data-tk-slot="label">.net</span><h4>Distribution</h4><p>Docs, versioning, and release delivery.</p></div>
+    </div>
+
+    <div style="margin-top:var(--tk-space-16)"><p class="eyebrow">how we work</p><h2>Principles</h2></div>
+    <div class="principles" style="margin-top:var(--tk-space-6)">
+      <div class="principle"><span class="pn">01</span><div><h4>Honest trade-offs</h4><p>Every study documents what we gave up, including what failed. No retrospective is sanitized for marketing.</p></div></div>
+      <div class="principle"><span class="pn">02</span><div><h4>Real use cases only</h4><p>Every solution originates from a build we actually used in practice.</p></div></div>
+      <div class="principle"><span class="pn">03</span><div><h4>No scores</h4><p>Recon is qualitative. The final stack call belongs to the constraints, not a number.</p></div></div>
+      <div class="principle"><span class="pn">04</span><div><h4>Data minimization</h4><p>We collect only what's needed to deliver a license. No behavioral data sold or shared.</p></div></div>
+    </div>
+
+    <div style="margin-top:var(--tk-space-16)"><p class="eyebrow">who's building</p><h2>The team</h2></div>
+    <div class="team" style="margin-top:var(--tk-space-6)">
+      <article class="tk-team-card"><span class="tk-avatar" data-style="mono" style="width:44px;height:44px;font-size:13px">MD</span><div><h4 style="margin:0">M. Dolce</h4><p data-tk-slot="role">Founder</p><p style="margin:0;font-size:14px;color:var(--tk-fg-3)">Documenting the build — research, decisions, and the templates that come out the other side.</p></div></article>
+      <article class="tk-team-card"><span class="tk-avatar" data-style="mono" style="width:44px;height:44px;font-size:13px;background:linear-gradient(135deg,var(--tk-studio),var(--tk-net))">+</span><div><h4 style="margin:0">Joining soon</h4><p data-tk-slot="role">Contributor</p><p style="margin:0;font-size:14px;color:var(--tk-fg-3)">Author OG cards template ready — initials, name, role, tagline swap in.</p></div></article>
+    </div>
+  </section>
+  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
+    <div data-tk-slot="col" data-pillar="org"><h5>.org</h5><a href="#">Use Case Studies</a><a href="#">Recon</a></div><div data-tk-slot="col" data-pillar="studio"><h5>.studio</h5><a href="#">Demos</a></div><div data-tk-slot="col" data-pillar="com"><h5>.com</h5><a href="#">Products</a></div><div data-tk-slot="col" data-pillar="net"><h5>.net</h5><a href="#">Documentation</a></div></div></div></footer>
+ </div>
+</section>
+<!-- ===== S9 — Account / Membership (sign-in · register · dashboard · purchase · request) ===== -->
+<section class="screen" id="s9">
+ <div class="frame">
+  <div class="frame-bar"><div class="frame-dots"><span></span><span></span><span></span></div><span class="frame-url">tekrogen.<b>com</b> / account &nbsp;<span style="color:var(--tk-net)">portal</span></span></div>
+  <header class="tk-site-header" data-style="framed"><div data-tk-slot="inner"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></div><nav data-tk-slot="nav"><a href="#">Home</a><a href="#">Case Studies</a><a href="#">Recon</a><a href="#">Demos</a><a href="#">Products</a><a href="#">Documentation</a><a href="#" aria-current="page">Account</a></nav><div data-tk-slot="util"><span class="tk-label">Search</span></div></div></header>
+
+  <!-- access ladder · anonymous → free → paid (INDEX L4) -->
+  <section class="acct-intro">
+    <p class="eyebrow">membership · /account · /portal · /forms</p>
+    <h1>Three states, one surface.</h1>
+    <p class="lead">Anonymous readers see everything but download nothing. A free account unlocks the MIT demo source. A paid subscription unlocks products, license keys, and the customer portal.</p>
+    <div class="tk-member-ladder">
+      <div data-tk-slot="step" data-pillar="studio"><span data-tk-slot="state">● anonymous · guest</span><h4>Read everything</h4>
+        <ul data-tk-slot="features"><li>Articles, recon &amp; demos</li><li>Product pages &amp; pricing</li><li data-state="excluded">Demo source downloads</li><li data-state="excluded">Product downloads</li></ul></div>
+      <div data-tk-slot="step" data-pillar="net"><span data-tk-slot="state">● free member</span><h4>Demo source &amp; saves</h4>
+        <ul data-tk-slot="features"><li>MIT demo-source bundles</li><li>Sample datasets</li><li>Save favorites</li><li>Submit a use-case request</li><li data-state="excluded">Paid product downloads</li></ul></div>
+      <div data-tk-slot="step" data-pillar="com"><span data-tk-slot="state">● paid member · subscription</span><h4>Products &amp; portal</h4>
+        <ul data-tk-slot="features"><li>Product downloads + source</li><li>License keys</li><li>Customer portal</li><li>Versioned updates in window</li></ul></div>
+    </div>
+  </section>
+
+  <!-- sub-screens 1 + 2 · sign in / register -->
+  <section class="acct-grid">
+    <article class="tk-auth-card">
+      <div data-tk-slot="head"><span class="lab">Sub-screen · sign in</span><span class="state-pill">anonymous</span></div>
+      <h3>Sign in to Tekrogen.</h3>
+      <p class="sub">A free account unlocks demo-source downloads. Paid members get product downloads, license keys, and the customer portal.</p>
+      <div class="tk-form">
+        <div class="tk-field"><label for="si-email">Email</label><input class="tk-input" id="si-email" type="email" placeholder="you@example.com"/></div>
+        <div class="tk-field"><label for="si-pw">Password</label><input class="tk-input" id="si-pw" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"/></div>
+        <a class="tk-button" data-style="cta" data-block href="#">Sign in →</a>
+        <p class="muted-line">New here? <a href="#" style="color:var(--tk-cyan)">Create a free account</a> · magic-link sign-in</p>
+      </div>
+      <p class="ghost-note">ghost portal · members</p>
+    </article>
+    <article class="tk-auth-card">
+      <div data-tk-slot="head"><span class="lab">Sub-screen · register</span><span class="state-pill" style="color:var(--tk-net);border-color:color-mix(in srgb,var(--tk-net) 45%,transparent)">free tier</span></div>
+      <h3>Create a free member account.</h3>
+      <p class="sub">Unlocks MIT demo-source bundles, sample datasets, saved favorites, and the ability to submit a use-case request. No credit card required.</p>
+      <div class="tk-form">
+        <div class="tk-field-row"><div class="tk-field"><label for="r-fn">First name</label><input class="tk-input" id="r-fn" placeholder="Martinique"/></div><div class="tk-field"><label for="r-ln">Last name</label><input class="tk-input" id="r-ln" placeholder="Dolce"/></div></div>
+        <div class="tk-field"><label for="r-em">Work email</label><input class="tk-input" id="r-em" type="email" placeholder="you@company.com"/></div>
+        <div class="tk-field"><label for="r-role">Your role · optional</label><input class="tk-input" id="r-role" placeholder="engineering · founder · ops"/></div>
+        <a class="tk-button" data-style="cta" data-pillar="net" data-block href="#">Create free account →</a>
+        <p class="fineprint">By creating an account you agree to the <a href="#" style="color:var(--tk-net)">terms</a> and <a href="#" style="color:var(--tk-net)">privacy policy</a>.</p>
+      </div>
+      <p class="ghost-note">ghost · {{#if @member}}</p>
+    </article>
+  </section>
+
+  <!-- sub-screen 3 · paid member dashboard -->
+  <section class="wrap" style="padding-bottom:0"><div class="sub-head"><span class="lab">Sub-screen · member dashboard</span><span class="state-pill" style="color:var(--tk-net);border-color:color-mix(in srgb,var(--tk-net) 45%,transparent)">paid member</span></div><h2>Order history &amp; downloads.</h2></section>
+  <div class="tk-dashboard">
+    <div data-tk-slot="head"><span class="tk-avatar" data-style="mono" style="width:42px;height:42px;font-size:13px">MD</span><div class="who"><h3>Martinique Dolce</h3><div class="role">● paid member · team license</div></div><span class="tk-label">2 active licenses</span><a class="tk-button" data-style="cta" data-variant="secondary" href="#">Account settings</a></div>
+    <div data-tk-slot="body">
+      <nav data-tk-slot="nav">
+        <a class="on" href="#">Overview</a>
+        <a href="#">Orders <span class="ct">04</span></a>
+        <a href="#">Downloads <span class="ct">11</span></a>
+        <a href="#">License keys <span class="ct">02</span></a>
+        <a href="#">Saved favorites <span class="ct">07</span></a>
+        <a href="#">Submitted requests <span class="ct">03</span></a>
+        <a href="#">Update windows <span class="ct">02</span></a>
+        <a href="#">Billing</a>
+      </nav>
+      <div data-tk-slot="main">
+        <div class="mh"><h3>Recent orders.</h3><a href="#">View all orders →</a></div>
+        <table class="tk-table"><thead><tr><th>Order</th><th>Product</th><th>License</th><th>Total</th><th>Action</th></tr></thead><tbody>
+          <tr><td class="ord">TK-2026-0089</td><td>Spine — fleet replay engine · v0.4.2</td><td class="lic">Team</td><td>$1,490</td><td><a class="dl" href="#">Download ↗</a></td></tr>
+          <tr><td class="ord">TK-2026-0064</td><td>Margin — deterministic PDF kit · v0.2.1</td><td class="lic">Extended</td><td>$429</td><td><a class="dl" href="#">Download ↗</a></td></tr>
+          <tr><td class="ord">TK-2026-0033</td><td>Facet — classroom kit · v0.1.0</td><td class="lic">Standard</td><td>$129</td><td><a class="dl" href="#">Download ↗</a></td></tr>
+          <tr><td class="ord">TK-2025-0212</td><td>Replay viewer · demo source</td><td class="lic">MIT</td><td>$0</td><td><a class="dl" href="#">Download ↗</a></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+  <section class="wrap" style="padding-top:var(--tk-space-3);padding-bottom:0"><p class="ghost-note">ghost · {{#if @member.paid}} — free members see a slimmed view: saved favorites + submitted requests only</p></section>
+
+  <!-- sub-screen 4 · purchase confirmation -->
+  <section class="wrap" style="padding-bottom:0"><div class="sub-head"><span class="lab">Sub-screen · purchase confirmation</span><span class="state-pill">post-checkout · stripe</span></div></section>
+  <div class="tk-confirm" data-pillar="com">
+    <span class="ok">● payment complete</span>
+    <h3 style="margin:10px 0 0">Spine — Standard license.</h3>
+    <div class="conf-grid"><div><div class="k">Order</div><div class="v">TK-2026-0090</div></div><div><div class="k">Tier · total</div><div class="v">Standard · $129</div></div><div><div class="k">Update window</div><div class="v">6 months</div></div></div>
+    <div class="keyline"><span>license key · tkrg-spine-7q4d-····-9f2a</span><span class="copy">copy</span></div>
+    <div class="demo-cta"><a class="tk-button" data-style="cta" data-pillar="com" href="#">Download Spine ↗</a><a class="tk-button" data-style="cta" data-variant="secondary" style="border-color:var(--tk-net);color:var(--tk-net)" href="#">Open customer portal ↗</a></div>
+    <p class="fineprint" style="margin-top:14px">Receipt emailed · the key and download also live in your dashboard and the .net customer portal.</p>
+  </div>
+
+  <!-- sub-screen 5 · request form (L5 edge-case / fallback) -->
+  <section class="wrap">
+    <div class="sub-head"><span class="lab">Sub-screen · request form · edge case</span><span class="state-pill">L5 · fallback</span></div>
+    <h2>Need something else?</h2>
+    <p>Request a custom build, suggest a use case, or ask about an Extended or Team license. Forms are fallback intake — the default path is a free account and a paid upgrade.</p>
+    <div class="reqform"><div class="tk-form">
+      <div class="tk-field-row"><div class="tk-field"><label for="rq-name">Name</label><input class="tk-input" id="rq-name" placeholder="Your name"/></div><div class="tk-field"><label for="rq-em">Work email</label><input class="tk-input" id="rq-em" type="email" placeholder="you@company.com"/></div></div>
+      <div class="tk-field"><label for="rq-topic">Topic · pillar / product</label><input class="tk-input" id="rq-topic" placeholder="e.g. Extended license · Spine · custom build"/></div>
+      <div class="tk-field"><label for="rq-msg">What are you building?</label><textarea class="tk-input" id="rq-msg" placeholder="A sentence or two about the use case…"></textarea></div>
+      <a class="tk-button" data-style="cta" data-block href="#">Send request →</a>
+      <p class="ghost-note">formspree / tally fallback · not the conversion path</p>
+    </div></div>
+  </section>
+
+  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
+    <div data-tk-slot="col" data-pillar="org"><h5>.org</h5><a href="#">Use Case Studies</a><a href="#">Recon</a></div><div data-tk-slot="col" data-pillar="studio"><h5>.studio</h5><a href="#">Demos</a></div><div data-tk-slot="col" data-pillar="com"><h5>.com</h5><a href="#">Products</a></div><div data-tk-slot="col" data-pillar="net"><h5>.net</h5><a href="#">Documentation</a></div></div></div></footer>
+ </div>
+</section>
+
+</div><!-- /.stage -->
+</div><!-- /.app -->
+<script>
+(function(){
+  var stage=document.getElementById('stage');
+  // tab routing
+  document.querySelectorAll('.shell-tab').forEach(function(t){t.addEventListener('click',function(){
+    var id=t.dataset.screen;
+    document.querySelectorAll('.shell-tab').forEach(function(x){x.setAttribute('aria-selected',x===t?'true':'false')});
+    document.querySelectorAll('.screen').forEach(function(s){s.setAttribute('aria-current',s.id===id?'true':'false')});
+    stage.scrollIntoView({behavior:'smooth',block:'start'});
+  });});
+  // surface toggle — paper scoped to the stage ONLY (harness stays Ink)
+  document.querySelectorAll('.surface-toggle button').forEach(function(b){b.addEventListener('click',function(){
+    var paper=b.dataset.surface==='paper';
+    stage.setAttribute('data-tk-theme',paper?'paper':'ink');
+    document.querySelectorAll('.surface-toggle button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+  });});
+  // wing accent
+  document.querySelectorAll('.wing').forEach(function(w){w.addEventListener('click',function(){
+    document.documentElement.style.setProperty('--wing-accent',w.dataset.wing);
+    document.querySelectorAll('.wing').forEach(function(x){x.classList.toggle('is-on',x===w)});
+  });});
+})();
+</script>
+</body>
+</html>
