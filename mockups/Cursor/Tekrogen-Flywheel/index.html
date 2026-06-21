@@ -170,6 +170,13 @@ a{border-bottom:0}                                  /* foundation underlines eve
 .demo-h1{margin-top:var(--tk-space-4)}
 .demo-cta{display:flex;gap:var(--tk-space-3);margin-top:var(--tk-space-5);flex-wrap:wrap}
 .stack{display:flex;gap:var(--tk-space-2);flex-wrap:wrap}
+/* content-column gutter — registry demo blocks match .wrap / .classbar inset (SP-1) */
+#s5 .tk-demo-meta{padding-left:var(--tk-gutter);padding-right:var(--tk-gutter)}
+#s5 .tk-demo-preview,
+#s5 .tk-demo-shots{margin-left:var(--tk-gutter);margin-right:var(--tk-gutter)}
+#s5 .tk-demo-preview{margin-top:var(--tk-space-8)}
+#s5 .tk-demo-shots{margin-top:var(--tk-space-6)}
+#s5 .tk-artifact-list{margin-left:var(--tk-gutter);margin-right:var(--tk-gutter)}
 
 /* ── VD-06 · Product & licensing (s6) — license matrix + checkout aside. stepper/product-hero/
    license-grid/feature-grid/content-card are registry components; the grids self-collapse, but
@@ -177,6 +184,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
    component is untouched). Tokenized; Claude-DT had .tech-block h4 10px + .crow .n 10px → 12px
    floor; .crow .n com→--tk-accent (AA on paper); h4 fg-4→fg-3 (AA). ── */
 .lic-section{padding:var(--tk-space-12) var(--tk-gutter);border-top:var(--tk-border-1)}
+#s6 .tk-product-hero{padding:var(--tk-space-12) var(--tk-gutter) 0} /* registry hero has no horizontal gutter */
 .prod-features{display:grid;grid-template-columns:1.6fr 1fr;gap:var(--tk-space-10);padding:var(--tk-space-12) var(--tk-gutter);border-top:var(--tk-border-1)}
 .tech-block{border:var(--tk-border-1);border-radius:var(--tk-radius-xl);padding:var(--tk-space-6);background:var(--tk-bg-2)}
 .tech-block h4{font-family:var(--tk-font-mono);font-size:var(--tk-fs-meta);letter-spacing:.16em;text-transform:uppercase;color:var(--tk-fg-3);margin:0 0 var(--tk-space-3)}
@@ -238,6 +246,11 @@ a{border-bottom:0}                                  /* foundation underlines eve
   .wrap{padding:var(--tk-space-12) var(--tk-gutter-sm)}
   .hero{padding:var(--tk-space-12) var(--tk-gutter-sm);gap:var(--tk-space-8)}
   .pillar-buttons{padding:var(--tk-space-6) var(--tk-gutter-sm) 0}
+  #s5 .tk-demo-meta{padding-left:var(--tk-gutter-sm);padding-right:var(--tk-gutter-sm)}
+  #s5 .tk-demo-preview,
+  #s5 .tk-demo-shots,
+  #s5 .tk-artifact-list{margin-left:var(--tk-gutter-sm);margin-right:var(--tk-gutter-sm)}
+  #s6 .tk-product-hero{padding-left:var(--tk-gutter-sm);padding-right:var(--tk-gutter-sm)}
 }
 
 @media(max-width:640px){
