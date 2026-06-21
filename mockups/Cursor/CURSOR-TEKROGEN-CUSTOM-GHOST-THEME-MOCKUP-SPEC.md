@@ -5,8 +5,8 @@
 **Author:** Cursor agent (initial scope acknowledgment)  
 **Working directory:** `/Users/martiniquehdolce/dev/cursor/Tekrogen-Ghost-theme-mockup`  
 **Cursor Mockup Theme Directory:** `/Users/martiniquehdolce/dev/cursor/Tekrogen-Ghost-theme-mockup/mockups/Cursor`
-**Original Project Main Repo:** [tekrogen/Tekrogen-Ghost-Theme-Mockup](https://github.com/tekrogen/Tekrogen-Ghost-Theme-Mockup)  
-**Original Project Main Issues:** [GitHub Issues](https://github.com/tekrogen/Tekrogen-Ghost-Theme-Mockup/issues)
+**Original (Reference Only) Project Main Repo:** [tekrogen/Tekrogen-Ghost-Theme-Mockup](https://github.com/tekrogen/Tekrogen-Ghost-Theme-Mockup)  
+**Original (Reference Only) Project Main Issues:** [GitHub Issues](https://github.com/tekrogen/Tekrogen-Ghost-Theme-Mockup/issues)
 **This Project Repo:** [Cursor Tekrogen Mockup Repo](https://github.com/tekrogen/cursor-ai-tekrogen-ghost-theme-mockup)  
 **This Project Issues:** [GitHub Issues](https://github.com/tekrogen/cursor-ai-tekrogen-ghost-theme-mockup/issues) 
 
@@ -65,7 +65,39 @@ These documents must be read and followed during remediation and mockup delivery
 | Workflow diagram               | `admin/features/proposed/tekrogen-mockup-revamp/_planning-specs/01.workflow-publishing-system-planning.png`      | Visual model of the publishing system                                    |
 | Visual domain specs            | `admin/features/proposed/tekrogen-mockup-revamp/visual-domains/FEAT-VD-00…09`                                    | Per-screen acceptance criteria → Ghost templates                         |
 | Repo rules                     | `CLAUDE.md`, `mockups/CLAUDE.md`                                                                                 | Surface map, upstream/re-vendor policy, versioning                       |
-| GitHub issues                  | [#34–#42](https://github.com/tekrogen/Tekrogen-Ghost-Theme-Mockup/issues)                                        | 1:1 tracking for remediation work orders                                 |
+| GitHub issues (operational)    | [Cursor #3–#11](https://github.com/tekrogen/cursor-ai-tekrogen-ghost-theme-mockup/issues)                         | Operational tracking + `Closes` targets for remediation work orders      |
+| GitHub issues (traceability)   | [original #34–#42](https://github.com/tekrogen/Tekrogen-Ghost-Theme-Mockup/issues)                               | Source references only — **not** `Closes` targets from this repo         |
+
+---
+
+## 4a. Issue mapping (Cursor repo)
+
+The 9 open source issues were mirrored into this repo on 2026-06-21. **Cursor numbers are the
+operational key** (use them in branches and `Closes`); original numbers are **traceability only**
+(GitHub will not close issues in another repo). V-IDs remain the stable label across both.
+
+| V-ID      | Original (ref only) | **Cursor** | Title                                   | Sprint step |
+|-----------|---------------------|------------|------------------------------------------|-------------|
+| **V8**    | #39                 | **#8**     | Locked tagline verbatim in hero          | 2 (next)    |
+| **V6**    | #37                 | **#7**     | Brand lockup → homepage link             | 2 (next)    |
+| **V1**    | #35                 | **#6**     | Footer colophon on all screens           | 3           |
+| **V3**    | #34                 | **#5**     | Mobile navigation / menu-toggle          | 6           |
+| **V11**   | #40                 | **#9**     | Lucide outline icons (docs categories)   | 8           |
+| **V13**   | #42                 | **#11**    | Interactive-primitives epic              | 8           |
+| **V14**   | #41                 | **#10**    | Version realignment                      | 9           |
+| —         | #14                 | **#3**     | Remove redundant `index-bak.html`        | cleanup     |
+| —         | #15                 | **#4**     | gitignore `.analysis/` (done in copy)    | cleanup     |
+| **V2+V7** | #36, #38            | —          | Paper-mode AA + cyan scope               | inherited¹  |
+| **V5**    | #38-adj             | —          | Card interactivity                       | inherited¹  |
+| **V10**   | ~~#57~~ (invalid)   | —          | Production sticky header variant         | untracked²  |
+
+¹ Closed upstream (shipped via merged source PR #47); not mirrored. Treated as inherited
+baseline in the Cursor surface — **verify**, no dependency on original-repo PRs.
+² Original `#57` does not exist; V4/V9/V16/V17 are likewise unticketed ("new"). Create a Cursor
+issue if/when these enter a sprint.
+
+> **Reference syntax:** link original issues as `Tekrogen-Ghost-Theme-Mockup#39` for traceability;
+> only `cursor-ai-tekrogen-ghost-theme-mockup` numbers may be used as `Closes #<n>` targets.
 
 ---
 
@@ -125,33 +157,33 @@ The rendered audit identified **14 gaps (V1–V14)** between the current Flywhee
 
 ### 6.1 High — blocks Ghost theme foundation (R1)
 
-| ID        | Issue    | Problem (summary)                                                              |
-|-----------|----------|--------------------------------------------------------------------------------|
-| **V2+V7** | #36, #38 | Paper-mode AA failure — raw cyan text on white; cyan inflation across surfaces |
-| **V1**    | #35      | Footer missing colophon (©, RSS, Contact) on all nine screens                  |
-| **V3**    | #34      | No mobile navigation — nav hidden at ≤768px with no menu toggle                |
+| ID        | Original ref | Cursor | Problem (summary)                                                              |
+|-----------|--------------|--------|--------------------------------------------------------------------------------|
+| **V2+V7** | #36, #38     | —      | Paper-mode AA failure — raw cyan text on white; cyan inflation across surfaces |
+| **V1**    | #35          | #6     | Footer missing colophon (©, RSS, Contact) on all nine screens                  |
+| **V3**    | #34          | #5     | No mobile navigation — nav hidden at ≤768px with no menu toggle                |
 
 ### 6.2 Medium — brand + UX conformance (R2)
 
-| ID      | Issue   | Problem (summary)                                             |
-|---------|---------|---------------------------------------------------------------|
-| **V4**  | new     | Cramped vertical rhythm between home sections                 |
-| **V5**  | #38-adj | Cards read as non-interactive — no link wrap, weak hover      |
-| **V6**  | #37     | Logo is `<div>`, not a home link                              |
-| **V7**  | #38     | Cyan on too many elements per screen                          |
-| **V8**  | #39     | Hero paraphrases locked tagline instead of using it verbatim  |
-| **V9**  | new     | Hero right column unbalanced — flywheel diagram in dead space |
-| **V10** | #57     | Production sticky header variant never demonstrated           |
+| ID      | Original ref      | Cursor | Problem (summary)                                            |
+|---------|-------------------|--------|--------------------------------------------------------------|
+| **V4**  | new               | —      | Cramped vertical rhythm between home sections                 |
+| **V5**  | #38-adj           | —      | Cards read as non-interactive — no link wrap, weak hover      |
+| **V6**  | #37               | #7     | Logo is `<div>`, not a home link                              |
+| **V7**  | #38               | —      | Cyan on too many elements per screen                          |
+| **V8**  | #39               | #8     | Hero paraphrases locked tagline instead of using it verbatim  |
+| **V9**  | new               | —      | Hero right column unbalanced — flywheel diagram in dead space |
+| **V10** | ~~#57~~ (invalid) | —      | Production sticky header variant never demonstrated           |
 
 ### 6.3 Low / port-queue (R3) + governance
 
-| ID      | Issue | Problem (summary)                                                     |
-|---------|-------|-----------------------------------------------------------------------|
-| **V11** | #40   | Docs category icons are 2-letter monograms, not Lucide                |
-| **V12** | watch | Off-signature `.stamp` rotate and off-table glyphs                    |
-| **V13** | #42   | Interactive primitives implied but not built (pagination, tabs, etc.) |
-| **V14** | #41   | Version realignment; un-lock premature v0.15.0 claim                  |
-| **V15** | doc   | Stale docs (e.g. "s2–s9 are stubs" — now built)                       |
+| ID      | Original ref | Cursor | Problem (summary)                                                    |
+|---------|--------------|--------|---------------------------------------------------------------------|
+| **V11** | #40          | #9     | Docs category icons are 2-letter monograms, not Lucide                |
+| **V12** | watch        | —      | Off-signature `.stamp` rotate and off-table glyphs                    |
+| **V13** | #42          | #11    | Interactive primitives implied but not built (pagination, tabs, etc.) |
+| **V14** | #41          | #10    | Version realignment; un-lock premature v0.15.0 claim                  |
+| **V15** | doc          | —      | Stale docs (e.g. "s2–s9 are stubs" — now built)                       |
 
 ### 6.4 What the mockup already gets right
 
@@ -169,17 +201,20 @@ The problem is **organism conformance, visual rhythm, interaction affordance, an
 
 Re-sequenced per `CLAUDE-CLI-EXECUTION-PROMPT.md` (2026-06-18 update). **One work order per session.**
 
-| Step | Work order                                     | GitHub issues | Status                                          |
-|------|------------------------------------------------|---------------|-------------------------------------------------|
-| 1    | V2 + V7 — Paper-mode AA accent + cyan scope    | #36, #38      | Done — requires PR #47 merged                   |
-| 2    | **V8 + V6 — Locked tagline + brand home link** | #39, #37      | **Next (first work order after team sign-off)** |
-| 3    | V1 — Footer colophon                           | #35           | Pending                                         |
-| 4    | V4 + V17 — Section spacing standard            | new           | Pending                                         |
-| 5    | V9 — Hero balance                              | new           | Pending                                         |
-| 6    | V3 — Mobile nav primitive                      | #34           | Pending (upstream DS component)                 |
-| 7    | R2 remainder (V5, V10, V16)                    | various       | Pending                                         |
-| 8    | R3 (V11, V12, V13)                             | #40, #42      | Pending                                         |
-| 9    | Governance (V14, V15)                          | #41           | Pending                                         |
+Issue numbers below are **Cursor-repo** numbers (operational); originals are kept for reference
+in §4a. Cells marked `—` have no Cursor issue yet (inherited baseline or unticketed "new").
+
+| Step | Work order                                     | Cursor issues | Status                                                          |
+|------|------------------------------------------------|---------------|-----------------------------------------------------------------|
+| 1    | V2 + V7 — Paper-mode AA accent + cyan scope    | — (orig #36/#38) | Inherited from source (PR #47); **verify in Cursor surface — no dependency on original-repo PRs** |
+| 2    | **V8 + V6 — Locked tagline + brand home link** | #8, #7        | **Next (first work order after team sign-off)**                 |
+| 3    | V1 — Footer colophon                           | #6            | Pending                                                         |
+| 4    | V4 + V17 — Section spacing standard            | — (new)       | Pending — create Cursor issue at sprint start                   |
+| 5    | V9 — Hero balance                              | — (new)       | Pending — create Cursor issue at sprint start                   |
+| 6    | V3 — Mobile nav primitive                      | #5            | Pending (upstream DS component)                                 |
+| 7    | R2 remainder (V5, V10, V16)                    | — (none)      | Pending — V5/V10 untracked (V10 orig #57 invalid)              |
+| 8    | R3 (V11, V12, V13)                             | #9, #11       | Pending                                                         |
+| 9    | Governance (V14, V15)                          | #10           | Pending                                                         |
 
 ---
 
@@ -209,6 +244,9 @@ These rules apply to every remediation session and mockup change.
 
 - Atomic branch → pathspec commit → PR with conventional title and `Closes #<n>`.
 - Never batch two work orders in one PR (except explicitly paired items like V8+V6).
+- `Closes #<n>` must reference **cursor-ai-tekrogen-ghost-theme-mockup** issues only. Original
+  issues (`Tekrogen-Ghost-Theme-Mockup#<n>`) are traceability links — they will **not** auto-close
+  from this repo. See the §4a mapping.
 
 ### 9.2 Evidence is the rendered surface
 
@@ -271,16 +309,17 @@ python3 -m http.server 8000
 
 ## 11. First work order (after team sign-off)
 
-**V8 + V6** — Locked tagline verbatim + brand home link (issues #39, #37)
+**V8 + V6** — Locked tagline verbatim + brand home link (Cursor issues #8, #7)
 
 | Item             | Requirement                                                                                                                            |
 |------------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | **V8**           | Set H1 and OG + Twitter meta to: *"Real solutions. Built, proven, ready to use."* Demote current paraphrase to supporting dek if kept. |
 | **V6**           | Change `<div data-tk-slot="brand">` → `<a data-tk-slot="brand" href="#/">` on all nine mastheads.                                      |
-| **Branch**       | `fix/39-37-tagline-home-link`                                                                                                          |
+| **Branch**       | `fix/7-8-tagline-home-link`                                                                                                            |
 | **PR title**     | `fix: set locked tagline verbatim and link brand lockup home`                                                                          |
-| **Closes**       | #39, #37                                                                                                                               |
-| **Precondition** | Confirm PR #47 (V2+V7 / fix/36-paper-accent-aa) is merged; `git fetch && git merge --ff-only origin/main`                              |
+| **Closes**       | #8, #7 (Cursor)                                                                                                                        |
+| **Original ref** | `Tekrogen-Ghost-Theme-Mockup#39, #37` (traceability only — not a `Closes` target)                                                      |
+| **Precondition** | Confirm V2+V7 accent fixes are present in the Cursor surface (inherited from source PR #47); `git fetch && git merge --ff-only origin/main`. No dependency on original-repo PRs. |
 | **Evidence**     | `remediation-plan/screenshots/v8-v6/` — before/, after/, callouts/, REVIEW.md                                                          |
 
 **Explicitly out of scope for this work order:** footer, spacing, mobile nav, hero balance, version re-stamp.
@@ -312,6 +351,7 @@ Use this section during review. Mark each item and note adjustments in comments 
 |------------|------------------------------------------------------------------------------------------------|---------------------------|
 | 2026-06-21 | Initial spec — scope acknowledgment for team review                                            | Cursor agent              | 
 | 2026-06-21 | Project Guidance AI Prompts + Review sign-off (`Tekrogen-Ghost-theme-mockup/admin/AI prompts`) | Marti Dolce, Tekrogen CEO |
+| 2026-06-21 | Mirrored 9 open source issues into Cursor repo (#3–#11); renumbered spec refs to Cursor operational IDs, added §4a mapping, dropped original-repo PR #47 precondition | Cursor agent |
 
 ---
 
