@@ -14,24 +14,24 @@
        Inline mark       → assets/tekrogen-mark.svg (18° tilt baked in) · -inverse.svg
      Per-template OG card → og-default (home/index) · og-article (post) ·
                             og-author (author) · og-series (tag/series), all 1200×630. ── -->
-<link rel="icon" href="../../assets/favicon.svg"/>
-<link rel="mask-icon" href="../../assets/favicon.svg" color="#1fd5da"/>
-<link rel="apple-touch-icon" href="../../assets/tekrogen-icon-256.svg"/>
+<link rel="icon" href="../../../assets/favicon.svg"/>
+<link rel="mask-icon" href="../../../assets/favicon.svg" color="#1fd5da"/>
+<link rel="apple-touch-icon" href="../../../assets/tekrogen-icon-256.svg"/>
 <!-- Open Graph / Twitter — asset-pack social cards (baseline = home; per-template mapping above) -->
 <meta property="og:type" content="website"/>
 <meta property="og:site_name" content="Tekrogen"/>
-<meta property="og:title" content="Tekrogen — We build real solutions to real problems."/>
+<meta property="og:title" content="Real solutions. Built, proven, ready to use."/>
 <meta property="og:description" content="Research, demos, products and documentation across .org / .studio / .com / .net, published under one mark."/>
-<meta property="og:image" content="../../assets/og-default.png"/>
+<meta property="og:image" content="../../../assets/og-default.png"/>
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="630"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="Tekrogen — We build real solutions to real problems."/>
-<meta name="twitter:image" content="../../assets/og-default.png"/>
-<link rel="stylesheet" href="../../colors_and_type.css"><!-- self-hosted fonts via @font-face (ADR-0008) -->
-<link rel="stylesheet" href="../../components/tk-components.css"><!-- vendored design-system registry -->
+<meta name="twitter:title" content="Real solutions. Built, proven, ready to use."/>
+<meta name="twitter:image" content="../../../assets/og-default.png"/>
+<link rel="stylesheet" href="../../../colors_and_type.css"><!-- self-hosted fonts via @font-face (ADR-0008) -->
+<link rel="stylesheet" href="../../../components/tk-components.css"><!-- vendored design-system registry -->
 <style>
-/* ── mockup-only CSS · tokens, type + Paper theme come from ../../colors_and_type.css (brand foundation) ──
+/* ── mockup-only CSS · tokens, type + Paper theme come from ../../../colors_and_type.css (brand foundation) ──
    Built to FEAT-VD-00 (global chrome + foundations) and FEAT-VD-01 (landing/home).
    Only harness + layout containers live here; every tk-* element is styled by the registry. ── */
 :root{--wing-accent:var(--tk-cyan)}                /* VD-00 F4 — the single editorial accent knob */
@@ -170,6 +170,13 @@ a{border-bottom:0}                                  /* foundation underlines eve
 .demo-h1{margin-top:var(--tk-space-4)}
 .demo-cta{display:flex;gap:var(--tk-space-3);margin-top:var(--tk-space-5);flex-wrap:wrap}
 .stack{display:flex;gap:var(--tk-space-2);flex-wrap:wrap}
+/* content-column gutter — registry demo blocks match .wrap / .classbar inset (SP-1) */
+#s5 .tk-demo-meta{padding-left:var(--tk-gutter);padding-right:var(--tk-gutter)}
+#s5 .tk-demo-preview,
+#s5 .tk-demo-shots{margin-left:var(--tk-gutter);margin-right:var(--tk-gutter)}
+#s5 .tk-demo-preview{margin-top:var(--tk-space-8)}
+#s5 .tk-demo-shots{margin-top:var(--tk-space-6)}
+#s5 .tk-artifact-list{margin-left:var(--tk-gutter);margin-right:var(--tk-gutter)}
 
 /* ── VD-06 · Product & licensing (s6) — license matrix + checkout aside. stepper/product-hero/
    license-grid/feature-grid/content-card are registry components; the grids self-collapse, but
@@ -177,6 +184,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
    component is untouched). Tokenized; Claude-DT had .tech-block h4 10px + .crow .n 10px → 12px
    floor; .crow .n com→--tk-accent (AA on paper); h4 fg-4→fg-3 (AA). ── */
 .lic-section{padding:var(--tk-space-12) var(--tk-gutter);border-top:var(--tk-border-1)}
+#s6 .tk-product-hero{padding:var(--tk-space-12) var(--tk-gutter) 0} /* registry hero has no horizontal gutter */
 .prod-features{display:grid;grid-template-columns:1.6fr 1fr;gap:var(--tk-space-10);padding:var(--tk-space-12) var(--tk-gutter);border-top:var(--tk-border-1)}
 .tech-block{border:var(--tk-border-1);border-radius:var(--tk-radius-xl);padding:var(--tk-space-6);background:var(--tk-bg-2)}
 .tech-block h4{font-family:var(--tk-font-mono);font-size:var(--tk-fs-meta);letter-spacing:.16em;text-transform:uppercase;color:var(--tk-fg-3);margin:0 0 var(--tk-space-3)}
@@ -238,6 +246,11 @@ a{border-bottom:0}                                  /* foundation underlines eve
   .wrap{padding:var(--tk-space-12) var(--tk-gutter-sm)}
   .hero{padding:var(--tk-space-12) var(--tk-gutter-sm);gap:var(--tk-space-8)}
   .pillar-buttons{padding:var(--tk-space-6) var(--tk-gutter-sm) 0}
+  #s5 .tk-demo-meta{padding-left:var(--tk-gutter-sm);padding-right:var(--tk-gutter-sm)}
+  #s5 .tk-demo-preview,
+  #s5 .tk-demo-shots,
+  #s5 .tk-artifact-list{margin-left:var(--tk-gutter-sm);margin-right:var(--tk-gutter-sm)}
+  #s6 .tk-product-hero{padding-left:var(--tk-gutter-sm);padding-right:var(--tk-gutter-sm)}
 }
 
 @media(max-width:640px){
@@ -259,7 +272,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
 <!-- FEAT-VD-00 harness: shell tabs, surface toggle, wing accent swatches.  -->
 <!-- ===================================================================== -->
 <div class="shell-bar">
-  <div class="brand"><img src="../../assets/tekrogen-mark.svg" alt=""/> Tekrogen</div>
+  <div class="brand"><img src="../../../assets/tekrogen-mark.svg" alt=""/> Tekrogen</div>
   <span class="ver">Flywheel · v1.0.0 · HI-FI</span>
   <div class="shell-tabs" role="tablist" aria-label="Screens">
     <button class="shell-tab" role="tab" aria-selected="true"  data-screen="s1">Home</button>
@@ -299,7 +312,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
   <!-- VD-00 F1 · masthead -->
   <header class="tk-site-header" data-style="framed">
     <div data-tk-slot="inner">
-      <div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></div>
+      <a data-tk-slot="brand" href="#/"><img src="../../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></a>
       <nav data-tk-slot="nav">
         <a href="#" aria-current="page">Home</a><a href="#">Case Studies</a><a href="#">Recon</a><a href="#">Demos</a><a href="#">Products</a><a href="#">Documentation</a><a href="#">About</a>
       </nav>
@@ -319,7 +332,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
   <section class="hero">
     <div class="hero-copy">
       <p class="eyebrow">tekrogen · publishing system</p>
-      <h1 class="display">We build real solutions to real problems.</h1>
+      <h1 class="display">Real solutions. Built, proven, ready to use.</h1>
       <p class="lead">Research, demonstrations, and production-ready products derived from actual implementations — documented openly, then packaged because they work.</p>
       <div class="hero-cta">
         <a class="tk-button" data-style="cta" href="#">Explore Case Studies</a>
@@ -363,7 +376,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
   </section>
 
   <!-- VD-00 F2 · footer -->
-  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
+  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
     <div data-tk-slot="col" data-pillar="org"><h5>.org</h5><a href="#">Use Case Studies</a><a href="#">Recon</a></div><div data-tk-slot="col" data-pillar="studio"><h5>.studio</h5><a href="#">Demos</a></div><div data-tk-slot="col" data-pillar="com"><h5>.com</h5><a href="#">Products</a></div><div data-tk-slot="col" data-pillar="net"><h5>.net</h5><a href="#">Documentation</a></div></div></div></footer>
  </div>
 </section>
@@ -377,7 +390,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
   <!-- VD-00 F1 · masthead (aria-current on Case Studies) -->
   <header class="tk-site-header" data-style="framed">
     <div data-tk-slot="inner">
-      <div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></div>
+      <a data-tk-slot="brand" href="#/"><img src="../../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></a>
       <nav data-tk-slot="nav">
         <a href="#">Home</a><a href="#" aria-current="page">Case Studies</a><a href="#">Recon</a><a href="#">Demos</a><a href="#">Products</a><a href="#">Documentation</a><a href="#">About</a>
       </nav>
@@ -440,7 +453,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
   </section>
 
   <!-- VD-00 F2 · footer -->
-  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
+  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
     <div data-tk-slot="col" data-pillar="org"><h5>.org</h5><a href="#">Use Case Studies</a><a href="#">Recon</a></div><div data-tk-slot="col" data-pillar="studio"><h5>.studio</h5><a href="#">Demos</a></div><div data-tk-slot="col" data-pillar="com"><h5>.com</h5><a href="#">Products</a></div><div data-tk-slot="col" data-pillar="net"><h5>.net</h5><a href="#">Documentation</a></div></div></div></footer>
  </div>
 </section>
@@ -452,7 +465,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
   <!-- VD-00 F1 · masthead (aria-current on Case Studies) -->
   <header class="tk-site-header" data-style="framed">
     <div data-tk-slot="inner">
-      <div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></div>
+      <a data-tk-slot="brand" href="#/"><img src="../../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></a>
       <nav data-tk-slot="nav">
         <a href="#">Home</a><a href="#" aria-current="page">Case Studies</a><a href="#">Recon</a><a href="#">Demos</a><a href="#">Products</a><a href="#">Documentation</a><a href="#">About</a>
       </nav>
@@ -521,7 +534,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
   </div>
 
   <!-- VD-00 F2 · footer -->
-  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
+  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
     <div data-tk-slot="col" data-pillar="org"><h5>.org</h5><a href="#">Use Case Studies</a><a href="#">Recon</a></div><div data-tk-slot="col" data-pillar="studio"><h5>.studio</h5><a href="#">Demos</a></div><div data-tk-slot="col" data-pillar="com"><h5>.com</h5><a href="#">Products</a></div><div data-tk-slot="col" data-pillar="net"><h5>.net</h5><a href="#">Documentation</a></div></div></div></footer>
  </div>
 </section>
@@ -533,7 +546,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
   <!-- VD-00 F1 · masthead (aria-current on Recon) -->
   <header class="tk-site-header" data-style="framed">
     <div data-tk-slot="inner">
-      <div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></div>
+      <a data-tk-slot="brand" href="#/"><img src="../../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></a>
       <nav data-tk-slot="nav">
         <a href="#">Home</a><a href="#">Case Studies</a><a href="#" aria-current="page">Recon</a><a href="#">Demos</a><a href="#">Products</a><a href="#">Documentation</a><a href="#">About</a>
       </nav>
@@ -583,7 +596,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
   </section>
 
   <!-- VD-00 F2 · footer -->
-  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
+  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
     <div data-tk-slot="col" data-pillar="org"><h5>.org</h5><a href="#">Use Case Studies</a><a href="#">Recon</a></div><div data-tk-slot="col" data-pillar="studio"><h5>.studio</h5><a href="#">Demos</a></div><div data-tk-slot="col" data-pillar="com"><h5>.com</h5><a href="#">Products</a></div><div data-tk-slot="col" data-pillar="net"><h5>.net</h5><a href="#">Documentation</a></div></div></div></footer>
  </div>
 </section>
@@ -595,7 +608,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
   <!-- VD-00 F1 · masthead (aria-current on Demos) -->
   <header class="tk-site-header" data-style="framed">
     <div data-tk-slot="inner">
-      <div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></div>
+      <a data-tk-slot="brand" href="#/"><img src="../../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></a>
       <nav data-tk-slot="nav">
         <a href="#">Home</a><a href="#">Case Studies</a><a href="#">Recon</a><a href="#" aria-current="page">Demos</a><a href="#">Products</a><a href="#">Documentation</a><a href="#">About</a>
       </nav>
@@ -646,7 +659,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
     <div data-tk-slot="actions"><a class="tk-button" data-style="cta" data-variant="secondary" href="#">Read the Case Study <span data-tk-slot="hint">↗ org/articles</span></a><a class="tk-button" data-style="cta" data-pillar="com" href="#">View Product <span data-tk-slot="hint">↗ com/products</span></a></div></div></section>
 
   <!-- VD-00 F2 · footer -->
-  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
+  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
     <div data-tk-slot="col" data-pillar="org"><h5>.org</h5><a href="#">Use Case Studies</a><a href="#">Recon</a></div><div data-tk-slot="col" data-pillar="studio"><h5>.studio</h5><a href="#">Demos</a></div><div data-tk-slot="col" data-pillar="com"><h5>.com</h5><a href="#">Products</a></div><div data-tk-slot="col" data-pillar="net"><h5>.net</h5><a href="#">Documentation</a></div></div></div></footer>
  </div>
 </section>
@@ -658,7 +671,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
   <!-- VD-00 F1 · masthead (aria-current on Products; util = Account + Cart commerce chrome) -->
   <header class="tk-site-header" data-style="framed">
     <div data-tk-slot="inner">
-      <div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></div>
+      <a data-tk-slot="brand" href="#/"><img src="../../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></a>
       <nav data-tk-slot="nav">
         <a href="#">Home</a><a href="#">Case Studies</a><a href="#">Recon</a><a href="#">Demos</a><a href="#" aria-current="page">Products</a><a href="#">Documentation</a><a href="#">About</a>
       </nav>
@@ -753,7 +766,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
   </section>
 
   <!-- VD-00 F2 · footer -->
-  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
+  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
     <div data-tk-slot="col" data-pillar="org"><h5>.org</h5><a href="#">Use Case Studies</a><a href="#">Recon</a></div><div data-tk-slot="col" data-pillar="studio"><h5>.studio</h5><a href="#">Demos</a></div><div data-tk-slot="col" data-pillar="com"><h5>.com</h5><a href="#">Products</a></div><div data-tk-slot="col" data-pillar="net"><h5>.net</h5><a href="#">Documentation</a></div></div></div></footer>
  </div>
 </section>
@@ -765,7 +778,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
   <!-- VD-00 F1 · masthead (aria-current on Documentation; util = Customer portal .net) -->
   <header class="tk-site-header" data-style="framed">
     <div data-tk-slot="inner">
-      <div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></div>
+      <a data-tk-slot="brand" href="#/"><img src="../../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></a>
       <nav data-tk-slot="nav">
         <a href="#">Home</a><a href="#">Case Studies</a><a href="#">Recon</a><a href="#">Demos</a><a href="#">Products</a><a href="#" aria-current="page">Documentation</a><a href="#">About</a>
       </nav>
@@ -832,7 +845,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
   </div>
 
   <!-- VD-00 F2 · footer (Releases link in the .net column) -->
-  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
+  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
     <div data-tk-slot="col" data-pillar="org"><h5>.org</h5><a href="#">Use Case Studies</a><a href="#">Recon</a></div><div data-tk-slot="col" data-pillar="studio"><h5>.studio</h5><a href="#">Demos</a></div><div data-tk-slot="col" data-pillar="com"><h5>.com</h5><a href="#">Products</a></div><div data-tk-slot="col" data-pillar="net"><h5>.net</h5><a href="#">Documentation</a><a href="#">Releases</a></div></div></div></footer>
  </div>
 </section>
@@ -844,7 +857,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
   <!-- VD-00 F1 · masthead (aria-current on About) -->
   <header class="tk-site-header" data-style="framed">
     <div data-tk-slot="inner">
-      <div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></div>
+      <a data-tk-slot="brand" href="#/"><img src="../../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></a>
       <nav data-tk-slot="nav">
         <a href="#">Home</a><a href="#">Case Studies</a><a href="#">Recon</a><a href="#">Demos</a><a href="#">Products</a><a href="#">Documentation</a><a href="#" aria-current="page">About</a>
       </nav>
@@ -885,7 +898,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
   </section>
 
   <!-- VD-00 F2 · footer -->
-  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
+  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
     <div data-tk-slot="col" data-pillar="org"><h5>.org</h5><a href="#">Use Case Studies</a><a href="#">Recon</a></div><div data-tk-slot="col" data-pillar="studio"><h5>.studio</h5><a href="#">Demos</a></div><div data-tk-slot="col" data-pillar="com"><h5>.com</h5><a href="#">Products</a></div><div data-tk-slot="col" data-pillar="net"><h5>.net</h5><a href="#">Documentation</a></div></div></div></footer>
  </div>
 </section>
@@ -897,7 +910,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
   <!-- VD-00 F1 · masthead (aria-current on Account) -->
   <header class="tk-site-header" data-style="framed">
     <div data-tk-slot="inner">
-      <div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></div>
+      <a data-tk-slot="brand" href="#/"><img src="../../../assets/tekrogen-mark.svg" alt="" width="28" height="28"/><span data-tk-slot="wordmark">Tekrogen</span></a>
       <nav data-tk-slot="nav">
         <a href="#">Home</a><a href="#">Case Studies</a><a href="#">Recon</a><a href="#">Demos</a><a href="#">Products</a><a href="#">Documentation</a><a href="#" aria-current="page">Account</a>
       </nav>
@@ -1003,7 +1016,7 @@ a{border-bottom:0}                                  /* foundation underlines eve
   </section>
 
   <!-- VD-00 F2 · footer -->
-  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
+  <footer class="tk-footer" data-style="nav"><div data-tk-slot="top"><div data-tk-slot="brand"><img src="../../../assets/tekrogen-mark.svg" alt="" width="40" height="40"/><div data-tk-slot="wordmark">TEKROGEN</div><p data-tk-slot="tagline">Documenting the build — research, decisions, and the templates that come out the other side.</p></div><div data-tk-slot="pillars">
     <div data-tk-slot="col" data-pillar="org"><h5>.org</h5><a href="#">Use Case Studies</a><a href="#">Recon</a></div><div data-tk-slot="col" data-pillar="studio"><h5>.studio</h5><a href="#">Demos</a></div><div data-tk-slot="col" data-pillar="com"><h5>.com</h5><a href="#">Products</a></div><div data-tk-slot="col" data-pillar="net"><h5>.net</h5><a href="#">Documentation</a></div></div></div></footer>
  </div>
 </section>
